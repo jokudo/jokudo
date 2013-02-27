@@ -39,7 +39,7 @@ mongoose.connection.on 'open', ()->
 
   # Start the app by listening on <port>
   server = app.listen port
-  console.log "Jokudo-signup started on port #{port}"
+  console.log "Jokudo started on port #{port}"
 
 
 mongoose.connect app.config.MONGOHQ_URL||'mongo://localhost/test'
