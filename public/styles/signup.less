@@ -1,0 +1,127 @@
+@import url("//fonts.googleapis.com/css?family=Rosarivo:400|Open+Sans:400,300");
+
+html{
+  width: 100%
+  height: 100%;
+}
+
+body{
+  background: url('/images/bansai.png') fixed no-repeat bottom right;
+  background-color: darken(@green, 5%);
+  width: 100%;
+  height: 100%;
+  font-family: 'Helvetica Neue', 'Helvetica', 'Open Sans', sans-serif;
+}
+
+#signup-container{
+  margin-top: 80px;
+}
+#signup-box{
+  @bg: @grey;
+  @text: lighten(@bg, 55%);
+  background: @bg;
+  color: @text;
+  border-top: 1px solid lighten(@bg, 20%);
+  border-bottom: 1px solid darken(@bg, 10%);
+  box-shadow: 0 5px 25px fade(@black, 80%);
+  padding: 10px;
+
+  h1,h2,h3{
+    font-family: 'Rosarivo', serif;
+    color: @black;
+    line-height: 1.4em;
+    width: 100%;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  h1.logo{
+    font-size: 60px;
+  }
+  h2.tag{
+    font-size: 12px;
+    margin-top: -10px;
+  }
+  h3.slogan{
+    color: @text;
+    font-size: 20px;
+    margin-top: 5px;
+    font-weight: 300;
+    font-family: 'Helvetica Neue', 'Helvetica', 'Open Sans', sans-serif;
+  }
+
+  #intro-text{
+    p{
+      font-weight: 300;
+      font-size: 15px;
+      line-height: 1.3em;
+      word-spacing: 1px;
+      padding: 0 50px;
+      margin-top: 30px;
+    }
+  }
+
+
+  #user-info{
+    margin-top: 30px;
+
+    p{
+      color: @black;
+      font-weight: 300;
+      text-align: center;
+      margin-bottom: 0;
+    }
+    p#errors{
+      color: @orange;
+      margin-top: 0;
+      margin-bottom: -5px;
+    }
+    input, input:focus{
+      width: 450px;
+      padding: 10px;
+      font-size: 20px;
+      text-align: center;
+      margin: 0 auto;
+      background: none;
+      border: 1px solid lighten(@bg, 20%);
+      border-top: none;
+      border-right: none;
+      border-left: none;
+      box-shadow: none;
+      color: @green;
+    }
+  }
+
+  #actions{
+    background: @darkGrey;
+    margin: 20px -10px -10px -10px;
+    padding: 10px;
+    text-align: right;
+    min-height: 30px;
+    button, .btn{
+      padding: 5px 10px;
+      font-size: 15px;
+    }
+    a{
+      line-height: 30px;
+    }
+    .share{
+      width: 150px;
+      display: inline-block;
+      float: left;
+      margin-left: -27px;
+      margin-top: 4px;
+    }
+  }
+}
+
+
+#recruiter-box{
+  font-size: 13px;
+  text-align: center;
+  padding: 0 0;
+  color: @darkGrey;
+  a, a:hover, a:visited{
+    color: lighten(@darkGrey, 5%);
+  }
+}

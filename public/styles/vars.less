@@ -1,0 +1,32 @@
+@black: #060709;
+@blue: #3FA9F5;
+@green: #76aa00;
+@grey:  #444444;
+@darkGrey: #222222;
+@gold: #FCC200;
+@light-grey: #E5E5E5;
+@orange: #aa7600;
+@red: #f00000;
+@white: #fff;
+
+
+/** Actual Important Color Definitions */
+// Most everything is colored using these variables
+@primary: @blue;
+@secondary: darken(@gold, 18%);
+@tertiary: @grey;
+
+
+@shadow: #ccc;
+
+
+/** Mixins **/
+.background-gradient-linear(@from: #ddd, @to: #fff){
+  background-color: @from;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='@{from}', endColorstr='@{to}');
+  background-image: -webkit-gradient(linear, left top, left bottom, from(@from), to(@to));
+  background-image: -moz-linear-gradient(top, @from, @to);
+  background-image: -ms-linear-gradient(top, @from, @to);
+  background-image: -o-linear-gradient(top, @from, @to);
+  background-image: linear-gradient(top, @from, @to);
+}
