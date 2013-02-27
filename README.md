@@ -1,5 +1,5 @@
-# jokudo-signup
-This is a simple place-holder site for the jokudo project. [jokudo.com](http://jokudo.com)
+# jokudo
+This is a simple MVP site for the jokudo project. [jokudo.com](http://jokudo.com)
 
 
 ## Tech
