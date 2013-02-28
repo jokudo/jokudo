@@ -19,4 +19,5 @@ exports = module.exports = (app) ->
       req.online = users.length
       next()
     )
+    db.zremrangebyscore 'online', '-inf', "(#{ago}", (err, users) -> return
   )
