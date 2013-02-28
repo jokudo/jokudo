@@ -1,0 +1,28 @@
+<% include _head %>
+
+  <% if ( "undefined" !== typeof(errors) && errors.length) { %>
+    <% errors.forEach(function(error){ %>
+      <p class="error"><%=error%></p>
+    <% }) %>
+  <% } %>
+
+
+  <% if ( !everyauth.loggedIn ) { %>
+
+
+  <form method="POST" action="/login">
+    <input type="email" name="<%=everyauth.password.loginFormFieldName%>" placeholder="email"/>
+    <input type="password" name="<%=everyauth.password.passwordFormFieldName%>" placeholder="password" />
+    <button type="submit">Login!</button>
+    or <a href="/register">Register</a>
+  </form>
+
+  <% } else { %>
+
+  <p>
+    You are arelady logged in!... now <a href="/logout">logout</a>
+  </p>
+
+  <% } %>
+
+<% include _foot %>

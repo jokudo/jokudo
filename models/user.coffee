@@ -55,7 +55,8 @@ UserSchema.virtual('name')
   )
 
 UserSchema.method 'encryptPassword', (plainText) ->
-  crypto.MD5(plainText or '')
+  plainText = plainText + '_9dD83n'
+  crypto.MD5(plainText)
 
 UserSchema.method 'setPassword', (plainText) ->
   @.hashPassword = @.encryptPassword plainText
@@ -77,5 +78,8 @@ exports.UserSchema = module.exports.UserSchema = UserSchema
 exports.boot = module.exports.boot = (app) ->
   mongoose.model 'User', UserSchema
   app.models.User = mongoose.model 'User'
+  app.models.User.encryptPassword = ->
+    u = new app.models.User()
+    u.encryptPassword.apply @, arguments
 
 

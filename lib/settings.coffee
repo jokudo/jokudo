@@ -1,9 +1,14 @@
 express   = require 'express'
 everyauth = require 'everyauth'
-partials  = require 'express-partials'
 fs        = require 'fs'
+auth      = require './auth'
+mpAPI     = require 'mixpanel'
 
 exports.boot = (app) ->
+
+  app.mixpanel  = new mpAPI.init app.config.MIXPANEL_ACCESS_TOKEN
+
+  auth.bootEveryauth app
 
   app.configure ()->
     app.set 'views', __dirname + '/../views'
@@ -46,13 +51,10 @@ exports.boot = (app) ->
       maxAge: 1000*60*60*24*5
     )
 
-    app.use everyauth.middleware()
+    app.use everyauth.middleware(app)
 
     # Helpers
     (require '../lib/helpers').boot app
-
-    # load the express-partials middleware
-    app.use partials()
 
     app.use express.favicon()
     app.use app.router
