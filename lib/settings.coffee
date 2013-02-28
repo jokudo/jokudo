@@ -45,22 +45,19 @@ exports.boot = (app) ->
 
     app.use express.cookieParser 'detta-är-en-hemlighet'
 
-
-    redisURL = url.parse(process.env.REDISCLOUD_URL)
-    db        = redis.createClient(redisURL.port, redisURL.hostname, no_ready_check: true)
-    db.auth redisURL.auth?.split(":")[1]
+    redisURL     = url.parse(process.env.REDISCLOUD_URL)
+    sessionStore = redis.createClient(redisURL.port, redisURL.hostname, no_ready_check: true)
+    sessionStore.auth redisURL.auth?.split(":")[1]
 
     app.use express.session(
-      secret: '43894d20bec9d6fb9e5e6ebae119e20c33feec50'
+      secret: '43894d20b39d6jokudo14533feec50'
       cookie:
         domain: app.config.DOMAIN
       domain: app.config.DOMAIN
       httpOnly: true
       # 5 days
       maxAge: 1000*60*60*24*5
-      store: new RedisStore(
-        client: db
-      )
+      store: new RedisStore(client: sessionStore)
     )
 
     app.use everyauth.middleware(app)
