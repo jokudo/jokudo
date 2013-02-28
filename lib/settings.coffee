@@ -1,8 +1,12 @@
-express   = require 'express'
-everyauth = require 'everyauth'
-fs        = require 'fs'
-auth      = require './auth'
-mpAPI     = require 'mixpanel'
+express    = require 'express'
+everyauth  = require 'everyauth'
+fs         = require 'fs'
+url        = require 'url'
+auth       = require './auth'
+mpAPI      = require 'mixpanel'
+onlineNow  = require './online-now'
+redis      = require 'redis'
+RedisStore = require('connect-redis')(express)
 
 exports.boot = (app) ->
 
@@ -41,6 +45,11 @@ exports.boot = (app) ->
 
     app.use express.cookieParser 'detta-är-en-hemlighet'
 
+
+    redisURL = url.parse(process.env.REDISCLOUD_URL)
+    db        = redis.createClient(redisURL.port, redisURL.hostname, no_ready_check: true)
+    db.auth redisURL.auth?.split(":")[1]
+
     app.use express.session(
       secret: '43894d20bec9d6fb9e5e6ebae119e20c33feec50'
       cookie:
@@ -49,9 +58,14 @@ exports.boot = (app) ->
       httpOnly: true
       # 5 days
       maxAge: 1000*60*60*24*5
+      store: new RedisStore(
+        client: db
+      )
     )
 
     app.use everyauth.middleware(app)
+
+    onlineNow app
 
     # Helpers
     (require '../lib/helpers').boot app

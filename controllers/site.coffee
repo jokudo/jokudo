@@ -4,5 +4,8 @@ exports = module.exports = (app) ->
   app.get '/', (req, res) ->
     res.render 'index'
 
+  app.get '/now', (req, res) ->
+    res.json(req.online)
+
 
 

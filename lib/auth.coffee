@@ -2,12 +2,20 @@ everyauth = require 'everyauth'
 
 
 exports.bootEveryauth = (app) =>
-  everyauth.everymodule.handleLogout (req, res) ->
-    req.logout()
-    @.redirect res, this.logoutRedirectPath()
-
-  everyauth.everymodule.findUserById (userId, callback) ->
-    app.models.User.findById userId, callback
+  everyauth.everymodule
+    .handleLogout( (req, res) ->
+      mpId = req.sessionID
+      app.mixpanel.track 'Logout', distinct_id: mpId
+      req.logout()
+      @.redirect res, this.logoutRedirectPath()
+    )
+    .findUserById( (userId, callback) ->
+      console.log userId
+      app.models.User.findById userId, callback
+    )
+    .performRedirect( (res, location) ->
+      res.redirect(location, 303)
+    )
 
 
   everyauth.password
@@ -25,13 +33,18 @@ exports.bootEveryauth = (app) =>
       app.models.User.findOne  email: email, hashPassword:  hashedPass, (err, user) ->
         return promise.fulfill([err]) if err
         return promise.fulfill(['Incorrect username or password.']) if user is null
-        app.mixpanel.track 'Logged In', distinct_id: session.distinctId
         promise.fulfill user
       promise
     )
     .respondToLoginSucceed( (res, user, data) ->
-      # Log new user creation
-      if user then @.redirect(res, data.session.redirectTo)
+      if user
+        # Log login session
+        mpId = data.req.sessionID
+        app.mixpanel.track 'Logged In', distinct_id: mpId
+        app.mixpanel.register_once? 'first_login', Date.now(), distinct_id: mpId
+        app.mixpanel.name_tag? user.email, distinct_id: mpId
+        # Redirect to home or wherever redirectTo is set to
+        @.redirect(res, data?.session?.redirectTo or '/')
     )
 
 
@@ -68,6 +81,12 @@ exports.bootEveryauth = (app) =>
         promise.fulfill user
       promise
     )
+    #.registerSuccessRedirect('/')
     .respondToRegistrationSucceed( (res, user, data) ->
-      @.redirect(res, data.session.redirectTo)
+      @.redirect(res, data?.session?.redirectTo or '/')
     )
+
+
+
+
+
