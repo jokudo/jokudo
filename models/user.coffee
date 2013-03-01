@@ -75,7 +75,6 @@ UserSchema.method 'isPasswordless', () ->
 UserSchema.method 'sendConfirmationEmail', (mandrill) ->
   hash = crypto.SHA256(@.email or '').substring(3,30)
   url = "http://#{process.env.DOMAIN}/account/confirm_email/#{@.id}/#{hash}"
-  console.log @, url
   mandrill.messages_send_template {
       template_name: 'email-confirmation'
     , template_content: ''
@@ -105,8 +104,6 @@ UserSchema.method 'sendConfirmationEmail', (mandrill) ->
     }, (err, data) ->
         if err
           console.log 'error-', err
-        else
-          console.log data
 
 
 UserSchema.pre 'save', (next) ->
