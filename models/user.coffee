@@ -110,8 +110,8 @@ UserSchema.method 'sendConfirmationEmail', (mandrill) ->
 
 
 UserSchema.method 'sendForgotPasswordEmail', (mandrill, redisDb) ->
-  hash = crypto.SHA256(@.email or '').substring(20,25) +
-    '-' + crypto.SHA256(@.firstName or '').substring(0,5) +
+  hash =  (Math.random()*10000).toString(16).split('').reverse().join('').substring(0,5) +
+    '-' + crypto.SHA256(@.email or '').substring(20,25) +
     '-' + crypto.MD5(@.hashPassword or '').substring(15,20) +
     '-' + Date.now().toString().split('').reverse().join('').substring(0,5)
   hash = hash.toUpperCase()

@@ -66,12 +66,14 @@ exports.bootEveryauth = (app) =>
       app.models.User.findOne  email: email, hashPassword:  hashedPass, (err, user) ->
         return promise.fulfill([err]) if err
         return promise.fulfill(['Incorrect username or password.']) if user is null
+        user.lastLogin = new Date()
+        user.loginCount++
+        user.save()
         promise.fulfill user
       promise
     )
     .respondToLoginSucceed( (res, user, data) ->
       if user
-        console.log user
         # Log login session
         mpId = data.req.sessionID
         app.mixpanel.track 'Logged In', distinct_id: mpId

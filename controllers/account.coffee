@@ -85,8 +85,12 @@ exports = module.exports = (app) ->
           return res.render 'errors/reset_wrong'
         user.setPassword req.body.password
         req.session.resetPasswordHash = null
+        app.redisDb.del hash
         user.save (err) ->
           # Login the user before redirecting
+          user.lastLogin = new Date()
+          user.loginCount++
+          user.save()
           req.session.auth = userId: user.id, loggedIn: true;
           req.user = user;
           delete req.session.redirectTo;
