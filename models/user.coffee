@@ -106,6 +106,55 @@ UserSchema.method 'sendConfirmationEmail', (mandrill) ->
           console.log 'error-', err
 
 
+
+
+
+UserSchema.method 'sendForgotPasswordEmail', (mandrill, redisDb) ->
+  hash = crypto.SHA256(@.email or '').substring(20,25) +
+    '-' + crypto.SHA256(@.firstName or '').substring(0,5) +
+    '-' + crypto.MD5(@.hashPassword or '').substring(15,20) +
+    '-' + Date.now().toString().split('').reverse().join('').substring(0,5)
+  hash = hash.toUpperCase()
+  redisDb.set hash, @.id
+  redisDb.expire hash, 24 * 60 * 60 * 1000
+
+  url = "http://#{process.env.DOMAIN}/account/reset_password/#{hash}"
+  mandrill.messages_send_template {
+      template_name: 'forgot-password'
+    , template_content: ''
+    , message:
+        subject: "Recover your your jokudo password"
+        from_email: 'signup@jokudo.com'
+        from_name: 'Jokudo'
+        track_opens: true
+        track_clicks: true
+        auto_txt: true
+        to: [
+          email: @.email
+        ]
+        template_content: []
+        global_merge_vars:[
+          {name: 'CURRENT_YEAR', content: (new Date()).getFullYear()},
+          {name: 'SUBJECT', content: "Recover your your jokudo password"}
+        ]
+        merge_vars:[
+          rcpt: @.email
+          vars: [
+            {name: 'RESET_LINK', content: url}
+            {name: 'FNAME', content: @.firstName}
+          ]
+        ]
+    , tags: ['password-reset']
+    }, (err, data) ->
+        if err
+          console.log 'error-', err
+
+
+
+
+
+
+
 UserSchema.pre 'save', (next) ->
   @.modified = Date.now()
   next()

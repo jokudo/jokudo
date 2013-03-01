@@ -1,0 +1,14 @@
+<% include ../_head %>
+
+  <% if ( "undefined" !== typeof(errors) && errors.length) { %>
+    <% errors.forEach(function(error){ %>
+      <p class="error"><%=error%></p>
+    <% }) %>
+  <% } %>
+
+  <form method="POST" action="/account/forgot_password">
+    <input type="email" name="email" placeholder="email"/>
+    <button type="submit">Recover</button>
+  </form>
+
+<% include ../_foot %>

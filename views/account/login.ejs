@@ -1,4 +1,4 @@
-<% include _head %>
+<% include ../_head %>
 
   <% if ( "undefined" !== typeof(errors) && errors.length) { %>
     <% errors.forEach(function(error){ %>
@@ -14,7 +14,7 @@
     <input type="email" name="<%=everyauth.password.loginFormFieldName%>" placeholder="email"/>
     <input type="password" name="<%=everyauth.password.passwordFormFieldName%>" placeholder="password" />
     <button type="submit">Login!</button>
-    or <a href="/register">Register</a>
+    or <a href="/register">Register</a> or <a href="/account/forgot_password">Forgot</a>
   </form>
 
   <% } else { %>
@@ -25,4 +25,4 @@
 
   <% } %>
 
-<% include _foot %>
+<% include ../_foot %>

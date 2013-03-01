@@ -49,7 +49,7 @@ exports.bootEveryauth = (app) =>
     # Login
     .getLoginPath("/login")
     .postLoginPath("/login")
-    .loginView("login")
+    .loginView("account/login")
     .loginLocals( (req, res) ->
       locals = res.locals
       for prop, val of app.locals
@@ -89,7 +89,7 @@ exports.bootEveryauth = (app) =>
     # Registration
     .getRegisterPath("/register")
     .postRegisterPath("/register")
-    .registerView("register")
+    .registerView("account/register")
     .registerLocals( (req, res) ->
       locals = res.locals
       for prop, val of app.locals

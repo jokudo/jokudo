@@ -3,12 +3,19 @@
 #
 app      = (require 'express')()
 port     = process.env.PORT or 8080
+url      = require 'url'
+redis    = require 'redis'
 mongoose = require 'mongoose'
 
 
 console.log "\n\nStarting in mode:", app.settings.env
 
 app.config = process.env
+
+# Redis setup
+redisURL        = url.parse(process.env.REDISCLOUD_URL)
+app.redisDb     = redis.createClient(redisURL.port, redisURL.hostname, no_ready_check: true)
+app.redisDb.auth redisURL.auth?.split(":")[1]
 
 mongoose.connection.on 'open', ()->
 
