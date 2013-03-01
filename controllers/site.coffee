@@ -7,5 +7,7 @@ exports = module.exports = (app) ->
   app.get '/now', (req, res) ->
     res.json(req.online)
 
+  app.get '/users-only', app.gate.requireLogin, (req, res) ->
+    res.json("Welcome to the jungle")
 
 

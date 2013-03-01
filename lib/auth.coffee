@@ -1,6 +1,34 @@
 everyauth = require 'everyauth'
 
 
+exports.requireLogin = (req, res, next) ->
+  if not req.loggedIn
+    rw = req.headers['x-requested-with']
+    req.session.redirectTo = req.headers.referer or '/';
+    return res.send(401) if rw is "XMLHttpRequest"
+    return res.redirect '/login'
+  next()
+
+exports.requireAdmin = (req, res, next) ->
+  rw = req.headers['x-requested-with']
+
+  if not req.loggedIn
+    req.session.redirectTo = req.headers.referer or '/';
+    return res.send(401) if rw is "XMLHttpRequest"
+    return res.redirect '/login'
+  if not req.user.admin
+    req.session.redirectTo = req.headers.referer or '/';
+    return res.send(401) if rw is "XMLHttpRequest"
+    return res.redirect '/'
+  next()
+
+
+exports.bootApp = (app) ->
+  exports.bootEveryauth app
+  app.gate =
+    requireLogin: exports.requireLogin
+    requireAdmin: exports.requireAdmin
+
 exports.bootEveryauth = (app) =>
   everyauth.everymodule
     .handleLogout( (req, res) ->
@@ -10,7 +38,6 @@ exports.bootEveryauth = (app) =>
       @.redirect res, this.logoutRedirectPath()
     )
     .findUserById( (userId, callback) ->
-      console.log userId
       app.models.User.findById userId, callback
     )
     .performRedirect( (res, location) ->
@@ -23,6 +50,12 @@ exports.bootEveryauth = (app) =>
     .getLoginPath("/login")
     .postLoginPath("/login")
     .loginView("login")
+    .loginLocals( (req, res) ->
+      locals = res.locals
+      for prop, val of app.locals
+        locals[prop] = val
+      locals
+    )
     .loginWith("email")
     .authenticate((email, password) ->
       promise = @.Promise()
@@ -38,11 +71,16 @@ exports.bootEveryauth = (app) =>
     )
     .respondToLoginSucceed( (res, user, data) ->
       if user
+        console.log user
         # Log login session
         mpId = data.req.sessionID
         app.mixpanel.track 'Logged In', distinct_id: mpId
-        app.mixpanel.register_once? 'first_login', Date.now(), distinct_id: mpId
-        app.mixpanel.name_tag? user.email, distinct_id: mpId
+        data.req.session.mixpanelInjection = "
+          mixpanel.name_tag('#{user.email}');
+          mixpanel.identify('#{user.email}');
+          mixpanel.people.set({'$email':'#{user.email}','$first_name':'#{user.firstName}','$last_name':'#{user.lastName}','$last_login':#{Date.now()}});
+          mixpanel.people.increment({'login_count':1});
+        ";
         # Redirect to home or wherever redirectTo is set to
         @.redirect(res, data?.session?.redirectTo or '/')
     )
@@ -52,6 +90,12 @@ exports.bootEveryauth = (app) =>
     .getRegisterPath("/register")
     .postRegisterPath("/register")
     .registerView("register")
+    .registerLocals( (req, res) ->
+      locals = res.locals
+      for prop, val of app.locals
+        locals[prop] = val
+      locals
+    )
     .extractExtraRegistrationParams((req) ->
       email: req.body.email
       name:
@@ -71,7 +115,10 @@ exports.bootEveryauth = (app) =>
     )
     .registerUser( (newUserAttributes) ->
       promise = @.Promise()
-      user = new app.models.User email: newUserAttributes.email
+      user = new app.models.User
+        email: newUserAttributes.email
+        firstName: newUserAttributes.name.first
+        lastName: newUserAttributes.name.last
       user.setPassword newUserAttributes.password
       user.save (err) ->
         if err
@@ -81,8 +128,20 @@ exports.bootEveryauth = (app) =>
         promise.fulfill user
       promise
     )
-    #.registerSuccessRedirect('/')
     .respondToRegistrationSucceed( (res, user, data) ->
+      # Send the registration email
+      user.sendConfirmationEmail app.mandrill
+
+      # Log the registration
+      mpId = data.req.sessionID
+      app.mixpanel.track 'Registered', distinct_id: mpId
+      data.req.session.mixpanelInjection = "
+        mixpanel.name_tag('#{user.email}');
+        mixpanel.identify('#{user.email}');
+        mixpanel.people.set({'$email':'#{user.email}','$first_name':'#{user.firstName}','$last_name':'#{user.lastName}',$created: '#{new Date()}','$last_login':#{Date.now()}, login_count: 0});
+        mixpanel.people.increment({'login_count':1});
+      ";
+      # Redirect
       @.redirect(res, data?.session?.redirectTo or '/')
     )
 

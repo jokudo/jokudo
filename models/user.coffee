@@ -17,9 +17,12 @@ UserSchema = new Schema(
     type: Schema.ObjectId
     ref: 'User'
   ]
+  confirmed:
+    type: Boolean
+    default: false
   loginCount:
     type: Number
-    default: 0
+    default: 1
   lastLogin:
     type: Date
     default: Date.now
@@ -63,14 +66,56 @@ UserSchema.method 'setPassword', (plainText) ->
   @
 
 UserSchema.method 'authenticate', (plainText) ->
-  this.hashPassword is this.encryptPassword plainText
+  @.hashPassword is @.encryptPassword plainText
 
 UserSchema.method 'isPasswordless', () ->
-  !(this.hashPassword?.length)
+  !(@.hashPassword?.length)
+
+
+UserSchema.method 'sendConfirmationEmail', (mandrill) ->
+  hash = crypto.SHA256(@.email or '').substring(3,30)
+  url = "http://#{process.env.DOMAIN}/account/confirm_email/#{@.id}/#{hash}"
+  console.log @, url
+  mandrill.messages_send_template {
+      template_name: 'email-confirmation'
+    , template_content: ''
+    , message:
+        subject: "Confirm your jokudo account, #{@.firstName}"
+        from_email: 'signup@jokudo.com'
+        from_name: 'Jokudo'
+        track_opens: true
+        track_clicks: true
+        auto_txt: true
+        to: [
+          email: @.email
+        ]
+        template_content: []
+        global_merge_vars:[
+          {name: 'CURRENT_YEAR', content: (new Date()).getFullYear()},
+          {name: 'SUBJECT', content: "Confirm your jokudo account, #{@.firstName}"}
+        ]
+        merge_vars:[
+          rcpt: @.email
+          vars: [
+            {name: 'CONFIRM_LINK', content: url}
+            {name: 'FNAME', content: @.firstName}
+          ]
+        ]
+    , tags: ['confirmation']
+    }, (err, data) ->
+        if err
+          console.log 'error-', err
+        else
+          console.log data
+
 
 UserSchema.pre 'save', (next) ->
   @.modified = Date.now()
   next()
+
+
+
+
 
 
 # Exports

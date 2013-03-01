@@ -1,5 +1,3 @@
-everyauth = require 'everyauth'
-
 exports.boot = module.exports.boot = (app) ->
   app.use (req, res, next) ->
 
@@ -23,9 +21,14 @@ exports.boot = module.exports.boot = (app) ->
 
     res.locals.user = req.user?
 
+    res.locals.mixpanel = () ->
+      [result, req.session.mixpanelInjection] = [req.session.mixpanelInjection, '']
+      result
+
     next()
 
 
+  app.locals.mp = app.mixpanel
 
   app.locals.app = app
 
