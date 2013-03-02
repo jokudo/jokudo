@@ -96,7 +96,7 @@ UserSchema.method 'isPasswordless', () ->
 UserSchema.method 'sendConfirmationEmail', (config={}) ->
 
   # Confirmation hash
-  email = @._email
+  email = @._email or @.email
   hash = crypto.SHA256(email or '').substring(3,30)
 
   hash =  (Math.random()*10000).toString(16).split('').reverse().join('').substring(0,5) +
@@ -111,15 +111,17 @@ UserSchema.method 'sendConfirmationEmail', (config={}) ->
   # Which template
   if config.update is true
     template = 'email-change-confirmation'
+    subject = "Confirm your change of email, #{@.firstName}"
   else
     template = 'email-confirmation'
+    subject = "Confirm your jokudo account, #{@.firstName}"
 
   # Send Template
   mandrill.messages_send_template {
       template_name: template
     , template_content: ''
     , message:
-        subject: "Confirm your jokudo account, #{@.firstName}"
+        subject: subject
         from_email: 'signup@jokudo.com'
         from_name: 'Jokudo'
         track_opens: true
@@ -131,7 +133,7 @@ UserSchema.method 'sendConfirmationEmail', (config={}) ->
         template_content: []
         global_merge_vars:[
           {name: 'CURRENT_YEAR', content: (new Date()).getFullYear()},
-          {name: 'SUBJECT', content: "Confirm your jokudo account, #{@.firstName}"}
+          {name: 'SUBJECT', content: subject}
         ]
         merge_vars:[
           rcpt: email
@@ -201,6 +203,8 @@ UserSchema.pre 'save', (next) ->
   if @.isNew
     @.email = @._email
     @._email = undefined
+    @.sendConfirmationEmail update: false
+    console.log 'here, should have sent'
   else if @.isModified '_email'
     if @._email isnt @.email and @._email
       @.confirmed = false

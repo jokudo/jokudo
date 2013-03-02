@@ -118,9 +118,9 @@ exports.bootEveryauth = (app) =>
     .registerUser( (newUserAttributes) ->
       promise = @.Promise()
       user = new app.models.User
-        email: newUserAttributes.email
         firstName: newUserAttributes.name.first
         lastName: newUserAttributes.name.last
+      user.changeEmail newUserAttributes.email
       user.setPassword newUserAttributes.password
       user.save (err) ->
         if err
@@ -131,8 +131,6 @@ exports.bootEveryauth = (app) =>
       promise
     )
     .respondToRegistrationSucceed( (res, user, data) ->
-      # Send the registration email
-      user.sendConfirmationEmail()
 
       # Log the registration
       mpId = data.req.sessionID
