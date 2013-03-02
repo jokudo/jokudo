@@ -32,7 +32,6 @@ exports = module.exports = (app) ->
         # Here we have a user and a correct hash
         user.confirmEmail()
         user.save (err) ->
-          console.log 'saved!', err
           res.redirect '/account'
 
 
