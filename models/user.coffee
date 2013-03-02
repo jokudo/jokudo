@@ -1,5 +1,13 @@
-crypto = require('ezcrypto').Crypto
-mongoose = require('mongoose')
+crypto      = require('ezcrypto').Crypto
+mongoose    = require 'mongoose'
+MandrillAPI = require('mailchimp').MandrillAPI
+
+redisDb = {}
+
+if process.env.MANDRILL_KEY
+  mandrill  = new MandrillAPI process.env.MANDRILL_KEY, version : '1.0', secure: false
+
+
 Schema = mongoose.Schema
 
 # Schema Setup
@@ -8,6 +16,8 @@ UserSchema = new Schema(
     type: String
     index:
       unique: true
+  _email: # Used for pending email changes
+    type: String
   hashPassword:
     type: String
     index: true
@@ -57,6 +67,17 @@ UserSchema.virtual('name')
     @.lastName = p[1]
   )
 
+UserSchema.method 'changeEmail', (newEmail) ->
+  # Put the new email into the _email property
+  return if newEmail is @.email
+  @._email = newEmail
+  @.confirmed = false
+
+UserSchema.method 'confirmEmail', (email) ->
+  @.email = @._email or @.email
+  @._email = undefined
+  @.confirmed = true
+
 UserSchema.method 'encryptPassword', (plainText) ->
   plainText = plainText + '_9dD83n'
   crypto.MD5(plainText)
@@ -72,11 +93,30 @@ UserSchema.method 'isPasswordless', () ->
   !(@.hashPassword?.length)
 
 
-UserSchema.method 'sendConfirmationEmail', (mandrill) ->
-  hash = crypto.SHA256(@.email or '').substring(3,30)
-  url = "http://#{process.env.DOMAIN}/account/confirm_email/#{@.id}/#{hash}"
+UserSchema.method 'sendConfirmationEmail', (config={}) ->
+
+  # Confirmation hash
+  email = @._email
+  hash = crypto.SHA256(email or '').substring(3,30)
+
+  hash =  (Math.random()*10000).toString(16).split('').reverse().join('').substring(0,5) +
+    '-' + crypto.SHA256(@._email or '').substring(20,25) +
+    '-' + (Math.random()*10000).toString(16).split('').reverse().join('').substring(0,5) +
+    '-' + Date.now().toString().split('').reverse().join('').substring(0,5)
+  hash = hash.toUpperCase()
+  redisDb.set hash, @.id
+
+  url = "http://#{process.env.DOMAIN}/account/confirm_email/#{hash}"
+
+  # Which template
+  if config.update is true
+    template = 'email-change-confirmation'
+  else
+    template = 'email-confirmation'
+
+  # Send Template
   mandrill.messages_send_template {
-      template_name: 'email-confirmation'
+      template_name: template
     , template_content: ''
     , message:
         subject: "Confirm your jokudo account, #{@.firstName}"
@@ -86,7 +126,7 @@ UserSchema.method 'sendConfirmationEmail', (mandrill) ->
         track_clicks: true
         auto_txt: true
         to: [
-          email: @.email
+          email: email
         ]
         template_content: []
         global_merge_vars:[
@@ -94,7 +134,7 @@ UserSchema.method 'sendConfirmationEmail', (mandrill) ->
           {name: 'SUBJECT', content: "Confirm your jokudo account, #{@.firstName}"}
         ]
         merge_vars:[
-          rcpt: @.email
+          rcpt: email
           vars: [
             {name: 'CONFIRM_LINK', content: url}
             {name: 'FNAME', content: @.firstName}
@@ -156,7 +196,15 @@ UserSchema.method 'sendForgotPasswordEmail', (mandrill, redisDb) ->
 
 
 UserSchema.pre 'save', (next) ->
-  @.modified = Date.now()
+  if @.modifiedPaths().length > 0 or @.isNew
+    @.modified = Date.now()
+  if @.isNew
+    @.email = @._email
+    @._email = undefined
+  else if @.isModified '_email'
+    if @._email isnt @.email and @._email
+      @.confirmed = false
+      @.sendConfirmationEmail update: true
   next()
 
 
@@ -167,6 +215,8 @@ UserSchema.pre 'save', (next) ->
 # Exports
 exports.UserSchema = module.exports.UserSchema = UserSchema
 exports.boot = module.exports.boot = (app) ->
+  mandrill = app.mandrill or mandrill
+  redisDb  = app.redisDb
   mongoose.model 'User', UserSchema
   app.models.User = mongoose.model 'User'
   app.models.User.encryptPassword = ->

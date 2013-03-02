@@ -132,7 +132,7 @@ exports.bootEveryauth = (app) =>
     )
     .respondToRegistrationSucceed( (res, user, data) ->
       # Send the registration email
-      user.sendConfirmationEmail app.mandrill
+      user.sendConfirmationEmail()
 
       # Log the registration
       mpId = data.req.sessionID

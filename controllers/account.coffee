@@ -3,9 +3,9 @@ crypto = require('ezcrypto').Crypto
 
 exports = module.exports = (app) ->
 
-
+  # Account information json-style
   app.get '/account', app.gate.requireLogin, (req, res) ->
-    res.json req.user
+    res.json user: req.user, pendingConfirmation: !req.user.confirmed
 
 
 
@@ -16,16 +16,24 @@ exports = module.exports = (app) ->
   ##
 
   # Confirm Email
-  app.get '/account/confirm_email/:userId/:hash', (req, res) ->
-    app.models.User.findOne _id: req.params.userId, (err, user) ->
-      if not user or err
+  app.get '/account/confirm_email/:hash', (req, res) ->
+    app.redisDb.get req.params.hash, (err, userId) ->
+      if err or not userId
         return res.render 'errors/confirm_wrong'
-      if req.params.hash is crypto.SHA256(user.email).substring(3,30)
-        user.confirmed = true
+
+      # Remove this hash
+      app.redisDb.del req.params.hash
+
+      # Find the user
+      app.models.User.findOne _id: userId, (err, user) ->
+        if err or not user
+          console.log 'err!', err
+          return res.render 'errors/confirm_wrong'
+        # Here we have a user and a correct hash
+        user.confirmEmail()
         user.save (err) ->
-          res.redirect '/'
-      else
-        return res.render 'errors/confirm_wrong'
+          console.log 'saved!', err
+          res.redirect '/account'
 
 
 
