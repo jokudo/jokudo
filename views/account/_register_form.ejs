@@ -7,37 +7,44 @@
 <form method="POST" action="/register" enctype="multipart/form-data">
 
   <div class="control-group">
-    <label class="control-label" for="inputEmail">Email</label>
+    <label class="control-label" for="email">Email</label>
+        <div class="help-inline">(<strong>.edu</strong> emails only)</div>
+
     <div class="controls">
-      <input type="email" name="email" placeholder=".edu Email"/>
+      <input type="email" name="email" id="email" placeholder=""/>
     </div>
   </div>
 
   <div class="control-group">
-    <label class="control-label" for="inputPassword">Name</label>
+    <label class="control-label" for="first_name">First Name</label>
     <div class="controls">
-      <input type="text" name="first_name" placeholder="First Name"/>
+      <input type="text" name="first_name" id="first_name" placeholder=""/>
     </div>
+  </div>
+  <div class="control-group">
+    <label class="control-label" for="last_name">Last Name</label>
     <div class="controls">
-      <input type="text" name="last_name" placeholder="Last Name"/>
+      <input type="text" name="last_name" id="last_name" placeholder=""/>
     </div>
   </div>
 
   <div class="control-group">
-    <label class="control-label" for="inputPassword">Password</label>
+    <label class="control-label" for="password">Password</label>
+    <div class="help-inline">(At least 6 characters)</div>
+
     <div class="controls">
-      <input type="password" name="password" placeholder="Password" />
+      <input type="password" name="password" id="password" placeholder="" />
     </div>
   </div>
 
 
   <div class="control-group">
-    <label class="control-label" for="inputPassword">Resumé</label>
+    <label class="control-label" for="resume">Resumé</label>
     <div class="controls">
-      <div class="btn" style="position: relative;">
+      <button type="button" class="btn resume-upload" style="position: relative;">
         Upload Resumé
-        <input type="file" name="resume" style="position: absolute; top:0; left:0; width: 100%; height:100%; margin:0; padding:0; opacity:0;"/>
-      </div>
+        <input type="file" name="resume" id="resume" style="position: absolute; top:0; left:0; width: 100%; height:100%; margin:0; padding:0; opacity:0;" title="Upload your resumé"/>
+      </button>
     </div>
   </div>
 

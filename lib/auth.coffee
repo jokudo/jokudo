@@ -44,7 +44,6 @@ exports.bootEveryauth = (app) =>
       res.redirect(location, 303)
     )
 
-
   everyauth.password
     # Login
     .getLoginPath("/login")
@@ -121,14 +120,15 @@ exports.bootEveryauth = (app) =>
       user = new app.models.User
         firstName: newUserAttributes.name.first
         lastName: newUserAttributes.name.last
-      user.changeEmail newUserAttributes.email
       user.setPassword newUserAttributes.password
       user.save (err) ->
         if err
           if err.code is 11000 and err.err.match /email/
             return promise.fulfill(["It appears that email has already been used. Did you forget your password?"])
           return promise.fulfill([err])
-        promise.fulfill user
+        user.changeEmail newUserAttributes.email
+        user.save () ->
+          promise.fulfill user
       promise
     )
     .respondToRegistrationSucceed( (res, user, data) ->
