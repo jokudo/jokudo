@@ -1,21 +1,22 @@
 <% include _head %>
+  <% include _nav %>
 
-  <% if ( !everyauth.loggedIn ) { %>
 
-  Not authorized <a href="/login">Please login</a>
+  <div class="masthead">
+    <div class="container">
+      <div class="row">
+        <div class="span6">
+          <div style="background: white; width: 200px; height: 200px; border: 10px solid black; margin: 10px;"></div>
+        </div>
+        <div class="span6">
 
-  <% } else { %>
+          <% include account/_register_form %>
 
-  <p>
-    You are logged in!...
-  </p>
-  <pre>
-    <%- JSON.stringify(everyauth.user)%>
-  </pre>
-  <p>
-    now <a href="/logout">logout</a>
-  </p>
+        </div>
+      </div> <!-- end row -->
+    </div> <!-- End container -->
+  </div> <!-- End Masthead -->
 
-  <% } %>
 
+  <% include _footer %>
 <% include _foot %>

@@ -84,7 +84,7 @@ exports.bootEveryauth = (app) =>
           mixpanel.people.increment({'login_count':1});
         ";
         # Redirect to home or wherever redirectTo is set to
-        @.redirect(res, data?.session?.redirectTo or '/')
+        @.redirect(res, data?.session?.redirectTo or '/account')
     )
 
 
@@ -103,6 +103,7 @@ exports.bootEveryauth = (app) =>
       name:
         first: req.body.first_name
         last: req.body.last_name
+      resume: req.files?.resume
     )
     .validateRegistration((newUserAttributes) ->
       if not newUserAttributes.email or not newUserAttributes.email.match /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.edu$/i
@@ -142,7 +143,7 @@ exports.bootEveryauth = (app) =>
         mixpanel.people.increment({'login_count':1});
       ";
       # Redirect
-      @.redirect(res, data?.session?.redirectTo or '/')
+      @.redirect(res, data?.session?.redirectTo or '/account')
     )
 
 

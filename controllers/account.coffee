@@ -8,7 +8,6 @@ exports = module.exports = (app) ->
     res.json user: req.user, pendingConfirmation: !req.user.confirmed
 
 
-
   ##
   #
   # Email account confirmation

@@ -1,0 +1,50 @@
+<% if ( "undefined" !== typeof(errors) && errors.length) { %>
+  <% errors.forEach(function(error){ %>
+    <p class="error"><%=error%></p>
+  <% }) %>
+<% } %>
+
+<form method="POST" action="/register" enctype="multipart/form-data">
+
+  <div class="control-group">
+    <label class="control-label" for="inputEmail">Email</label>
+    <div class="controls">
+      <input type="email" name="email" placeholder=".edu Email"/>
+    </div>
+  </div>
+
+  <div class="control-group">
+    <label class="control-label" for="inputPassword">Name</label>
+    <div class="controls">
+      <input type="text" name="first_name" placeholder="First Name"/>
+    </div>
+    <div class="controls">
+      <input type="text" name="last_name" placeholder="Last Name"/>
+    </div>
+  </div>
+
+  <div class="control-group">
+    <label class="control-label" for="inputPassword">Password</label>
+    <div class="controls">
+      <input type="password" name="password" placeholder="Password" />
+    </div>
+  </div>
+
+
+  <div class="control-group">
+    <label class="control-label" for="inputPassword">Resumé</label>
+    <div class="controls">
+      <div class="btn" style="position: relative;">
+        Upload Resumé
+        <input type="file" name="resume" style="position: absolute; top:0; left:0; width: 100%; height:100%; margin:0; padding:0; opacity:0;"/>
+      </div>
+    </div>
+  </div>
+
+  <div class="control-group">
+    <div class="controls">
+      <button type="submit" class="btn">Get Me Jobs!</button>
+    </div>
+  </div>
+
+</form>

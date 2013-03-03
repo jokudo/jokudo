@@ -1,0 +1,26 @@
+<div id="header">
+  <div class="container">
+    <div id="header-logo">
+      <a href="http://<%=domain%>">jokudo</a>
+    </div>
+    <div id="user-nav">
+      <% if ( !loggedIn ){ %>
+      <form class="inline inline-right" method="POST" action="/login">
+        <div class="control-block">
+          <label for="email">Email</label>
+          <input type="email" name="email" />
+        </div>
+        <div class="control-block">
+          <label for="password">Password
+            <span id="forgot-password"><a href="/account/forgot_password" tabindex="3">Forgot password</a></span>
+          </label>
+          <input type="password" name="password" />
+        </div>
+        <div class="control-block">
+          <button id="sign-in">Sign In</button>
+        </div>
+      </form>
+      <% } %>
+    </div>
+  </div>
+</div>

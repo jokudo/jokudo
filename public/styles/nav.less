@@ -1,0 +1,47 @@
+#header{
+  background: @grey;
+  padding-bottom: 5px;
+  box-shadow: 0 0 15px @black;
+  color: @lightGrey;
+}
+
+#header-logo{
+  font-family: 'Rosarivo', serif;
+  text-align: center;
+  float: left;
+  font-size: 37px;
+  font-weight: 600;
+  line-height: 32px;
+  margin-top: 14px;
+  a,a:hover,a:visited{
+    color: @green;
+    text-decoration: none;
+  }
+}
+
+#user-nav{
+  float: right;
+  #forgot-password{
+    font-size: 10px;
+    font-weight: 300;
+    margin: 0 0 0 10px;
+  }
+  input{
+    width: 180px;
+    background: @lightGrey;
+  }
+  button, .btn{
+    background: @lightGrey;
+  }
+  label{
+    color: darken(@lightGrey, 10%);
+    a, a:hover, a:visited{
+      color: @green;
+      font-weight: 600;
+    }
+  }
+}
+
+.text-right{
+  text-align: right;
+}
