@@ -204,7 +204,6 @@ UserSchema.pre 'save', (next) ->
     @.email = @._email
     @._email = undefined
     @.sendConfirmationEmail update: false
-    console.log 'here, should have sent'
   else if @.isModified '_email'
     if @._email isnt @.email and @._email
       @.confirmed = false

@@ -83,7 +83,9 @@ exports.bootEveryauth = (app) =>
           mixpanel.people.increment({'login_count':1});
         ";
         # Redirect to home or wherever redirectTo is set to
-        @.redirect(res, data?.session?.redirectTo or '/account')
+      redirectTo = data?.session?.redirectTo or '/account'
+      data.session.redirectTo = undefined
+      @.redirect(res, redirectTo)
     )
 
 
@@ -117,18 +119,20 @@ exports.bootEveryauth = (app) =>
     )
     .registerUser( (newUserAttributes) ->
       promise = @.Promise()
-      user = new app.models.User
-        firstName: newUserAttributes.name.first
-        lastName: newUserAttributes.name.last
-      user.setPassword newUserAttributes.password
-      user.save (err) ->
-        if err
-          if err.code is 11000 and err.err.match /email/
-            return promise.fulfill(["It appears that email has already been used. Did you forget your password?"])
-          return promise.fulfill([err])
-        user.changeEmail newUserAttributes.email
-        user.save () ->
-          promise.fulfill user
+
+      app.models.User.count $or: [ {email: newUserAttributes.email}, {_email: newUserAttributes.email}], (err, count) ->
+        if count
+          return promise.fulfill(["It appears that email has already been used. Did you forget your password?"])
+        else
+          user = new app.models.User
+            firstName: newUserAttributes.name.first
+            lastName: newUserAttributes.name.last
+          user.setPassword newUserAttributes.password
+          user.changeEmail newUserAttributes.email
+          user.save (err) ->
+            if err
+              return promise.fulfill([err])
+            promise.fulfill user
       promise
     )
     .respondToRegistrationSucceed( (res, user, data) ->
@@ -143,7 +147,9 @@ exports.bootEveryauth = (app) =>
         mixpanel.people.increment({'login_count':1});
       ";
       # Redirect
-      @.redirect(res, data?.session?.redirectTo or '/account')
+      redirectTo = data?.session?.redirectTo or '/account'
+      data.session.redirectTo = undefined
+      @.redirect(res, redirectTo)
     )
 
 
