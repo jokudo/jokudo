@@ -6,8 +6,7 @@ html{
 }
 
 body{
-  background: url('/images/bansai.png') no-repeat bottom right;
-  background-color: darken(@green, 0%);
+  background: @offwhite url('/images/bansai.png') no-repeat bottom right;
   width: 100%;
   height: 100%;
   font-family: 'Helvetica Neue', 'Helvetica', 'Open Sans', sans-serif;
@@ -17,15 +16,24 @@ a, a:hover, a:visited{
   color: lighten(@darkGrey, 5%);
 }
 
+h1,h2,h3,h4,h5{
+  font-weight: 100;
+  text-rendering: optimizelegibility;
+  font-family: 'Helvetica Neue', 'Helvetica', 'Open Sans', sans-serif;
+}
+h1{
+  font-weight: 300;
+}
 
 input, textarea, button, .btn{
-  border: 1px solid @shadow;
-  -webkit-transition: border linear 0.2s, box-shadow linear 0.2s;
-  -moz-transition: border linear 0.2s, box-shadow linear 0.2s;
-  -o-transition: border linear 0.2s, box-shadow linear 0.2s;
-  transition: border linear 0.2s, box-shadow linear 0.2s;
-  padding: 3px 4px;
-  color: #555;
+  border: 3px solid @middleGrey;
+  @speed: 0.1s;
+  -webkit-transition: border linear @speed;
+  -moz-transition: border linear @speed;
+  -o-transition: border linear @speed;
+  transition: border linear @speed;
+  padding: 5px;
+  color: @grey;
 }
 
 textarea:focus,
@@ -43,13 +51,11 @@ input[type="url"]:focus,
 input[type="search"]:focus,
 input[type="tel"]:focus,
 input[type="color"]:focus {
-  border-color: @blue;
+  border-color: @green;
   outline: 0;
-  outline: thin dotted 9;
-  @glow: fade(@blue, 30%);
-  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px @glow;
-  -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px @glow;
-  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px @glow;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
 }
 
 
@@ -62,9 +68,9 @@ button,.btn{
   vertical-align: middle;
   cursor: pointer;
   border: 1px solid @shadow;
-  -webkit-border-radius: 1px;
-  -moz-border-radius: 1px;
-  border-radius: 1px;
+  -webkit-border-radius: 0px;
+  -moz-border-radius: 0px;
+  border-radius: 0px;
   -webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2),0 1px 2px rgba(0, 0, 0, 0.05);
   -moz-box-shadow: inset 0 1px 0 rgba(255,255,255,0.2),0 1px 2px rgba(0,0,0,0.05);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2),0 1px 2px rgba(0, 0, 0, 0.05);
@@ -109,8 +115,6 @@ form.inline{
     }
   }
 }
-
-
 
 
 

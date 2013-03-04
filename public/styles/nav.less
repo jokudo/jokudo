@@ -1,21 +1,33 @@
 #header{
-  background: @grey;
+  background: @nav;
+  @from: darken(@nav,8%);
+  @size: 5px;
+  background-image: -webkit-linear-gradient(bottom, @from 0%, @nav @size);
+  background-image: -ms-linear-gradient(bottom, @from 0%, @nav @size);
+  background-image: -moz-linear-gradient(bottom, @from 0%, @nav @size);
+  background-image: -o-linear-gradient(bottom, @from 0%, @nav @size);
+  background-image: linear-gradient(to top, @from 0%, @nav @size);
+
+
   padding-bottom: 5px;
-  box-shadow: 0 0 15px @black;
   color: @lightGrey;
+
 }
 
 #header-logo{
-  font-family: 'Rosarivo', serif;
   text-align: center;
   float: left;
   font-size: 37px;
   font-weight: 600;
   line-height: 32px;
-  margin-top: 14px;
+  margin: 15px 0;
   a,a:hover,a:visited{
     color: @green;
+    font-family: 'Rosarivo', serif;
     text-decoration: none;
+    img{
+      height: 38px;
+    }
   }
 }
 
