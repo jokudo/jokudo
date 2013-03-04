@@ -109,8 +109,8 @@ exports.bootEveryauth = (app) =>
     .validateRegistration((newUserAttributes) ->
       if not newUserAttributes.email or not newUserAttributes.email.match /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.edu$/i
         return ["You must use a valid .edu email"]
-      if not newUserAttributes.name.first or not newUserAttributes.name.last
-        return ["Please enter your first and last name"]
+      # if not newUserAttributes.name.first or not newUserAttributes.name.last
+      #   return ["Please enter your first and last name"]
       if not newUserAttributes.password
         return ["You must enter a password"]
       if newUserAttributes.password.length < 6
