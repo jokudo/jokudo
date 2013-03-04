@@ -23,10 +23,6 @@ UserSchema = new Schema(
     index: true
   firstName: String
   lastName: String
-  friends: [
-    type: Schema.ObjectId
-    ref: 'User'
-  ]
   confirmed:
     type: Boolean
     default: false
