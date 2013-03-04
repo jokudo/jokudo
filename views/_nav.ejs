@@ -7,6 +7,7 @@
     </div>
     <div id="user-nav">
       <% if ( !loggedIn ){ %>
+      <% if (false) {%>
       <form class="inline inline-right" method="POST" action="/login">
         <div class="control-block">
           <label for="email">Email</label>
@@ -22,6 +23,9 @@
           <button id="sign-in">Sign In</button>
         </div>
       </form>
+      <%}else{%>
+      temp nav
+      <%}%>
       <% } %>
     </div>
   </div>
