@@ -33,6 +33,8 @@
 
 #user-nav{
   float: right;
+  margin-top: 16px;
+
   #forgot-password{
     font-size: 10px;
     font-weight: 300;
@@ -43,7 +45,14 @@
     background: @lightGrey;
   }
   button, .btn{
-    background: @lightGrey;
+    background: @white;
+    border-width: 1px;
+    font-size: 15px;
+    font-weight: 300;
+    padding: 8px 25px;
+    &:hover{
+      text-decoration: none;
+    }
   }
   label{
     color: darken(@lightGrey, 10%);

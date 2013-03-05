@@ -1,17 +1,26 @@
 .masthead{
 
-  padding-top: 50px;
-  background: url('/images/masthead.png') no-repeat top center;
-  min-height: 959px;
+  padding-top: 120px;
+  background: url('/images/masthead.jpg') no-repeat top center;
+ // background: url('/images/masthead.png') no-repeat top center;
+  min-height: 800px;
 
   color: @white;
-  text-shadow: -1px -1px 0 @black;
+  text-shadow: 0 0 5px @black;
 
   .intro{
+    // background: rgba(0,0,0,.3);
+    // box-shadow: 0 0 15px rgba(0,0,0,.65);
+    padding: 10px;
     h1{
       font-size: 36px;
-      line-height: 40px;
-      margin: 0;
+      line-height: 38px;
+      font-weight: 400;
+    }
+    h2{
+      font-size: 24px;
+      font-weight: 200;
+      line-height: 28px;
     }
   }
 }
@@ -29,16 +38,16 @@
     color: @white;
     background: @green;
     padding: 10px 15px;
-    font-size: 28px;
+    font-size: 30px;
     text-shadow: none;
     text-transform: uppercase;
-    line-height: 30px;
+    line-height: 35px;
     display: inline-block;
   }
   .h2{
     margin: 0;
     color: @white;
-    background: darken(@green, 20%);
+    background: darken(@green, 7%);
     padding: 10px 15px;
     font-size: 14px;
     line-height: 20px;
@@ -115,7 +124,7 @@
 
     button[type="submit"]{
       font-size: 20px;
-      font-weight: 600;
+      font-weight: 400;
       margin-top: 15px;
       background: @green;
       border-color: @green;
