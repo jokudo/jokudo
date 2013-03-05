@@ -109,7 +109,7 @@ exports.bootEveryauth = (app) =>
     .validateRegistration((newUserAttributes) ->
 
       binary = fs.readFileSync newUserAttributes.resume.path
-      if binary.length > 1000000
+      if binary.length > 1000000 or binary.length < 0 or newUserAttributes.resume.path is ''
         newUserAttributes.resume = undefined
 
 
