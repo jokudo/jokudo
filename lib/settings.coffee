@@ -51,9 +51,6 @@ exports.boot = (app) ->
       streamOut: true
     )
 
-    # Compress all transactions
-    app.use express.compress()
-
     # Server static files
     app.use express.static __dirname + '/../public'
 
@@ -89,8 +86,12 @@ exports.boot = (app) ->
     # Everyone loves favicons!
     app.use express.favicon()
 
+    # Compress all transactions
+    app.use express.compress()
+
     # And last but not least the routers
     app.use app.router
+
 
 
   app.set 'showStackError', false
