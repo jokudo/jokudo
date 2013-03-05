@@ -112,13 +112,18 @@ UserSchema.method 'sendConfirmationEmail', (config={}) ->
 
   url = "http://#{process.env.DOMAIN}/account/confirm_email/#{hash}"
 
+  if @.firstName
+    name = " , #{@.firstName}"
+  else
+    name = ""
+
   # Which template
   if config.update is true
     template = 'email-change-confirmation'
-    subject = "Confirm your change of email, #{@.firstName}"
+    subject = "Confirm your change of email#{name}"
   else
     template = 'email-confirmation'
-    subject = "Confirm your jokudo account, #{@.firstName}"
+    subject = "Confirm your jokudo account#{name}"
 
   # Send Template
   mandrill.messages_send_template {
