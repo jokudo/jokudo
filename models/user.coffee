@@ -1,3 +1,4 @@
+fs          = require 'fs'
 crypto      = require('ezcrypto').Crypto
 mongoose    = require 'mongoose'
 MandrillAPI = require('mailchimp').MandrillAPI
@@ -23,6 +24,9 @@ UserSchema = new Schema(
     index: true
   firstName: String
   lastName: String
+  resume:
+    mime: String
+    bin: Buffer
   confirmed:
     type: Boolean
     default: false
@@ -73,6 +77,10 @@ UserSchema.method 'confirmEmail', (email) ->
   @.email = @._email or @.email
   @._email = undefined
   @.confirmed = true
+
+UserSchema.method 'saveResume', (resumeFile) ->
+  @.resume.mime = resumeFile.mime
+  @.resume.bin = fs.readFileSync resumeFile.path
 
 UserSchema.method 'encryptPassword', (plainText) ->
   plainText = plainText + '_9dD83n'
@@ -135,7 +143,7 @@ UserSchema.method 'sendConfirmationEmail', (config={}) ->
           rcpt: email
           vars: [
             {name: 'CONFIRM_LINK', content: url}
-            {name: 'FNAME', content: @.firstName}
+            {name: 'FNAME', content: @.firstName or "Hey there!"}
           ]
         ]
     , tags: ['confirmation']
@@ -179,7 +187,7 @@ UserSchema.method 'sendForgotPasswordEmail', (mandrill, redisDb) ->
           rcpt: @.email
           vars: [
             {name: 'RESET_LINK', content: url}
-            {name: 'FNAME', content: @.firstName}
+            {name: 'FNAME', content: @.firstName or "Hey there!"}
           ]
         ]
     , tags: ['password-reset']

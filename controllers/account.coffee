@@ -7,6 +7,14 @@ exports = module.exports = (app) ->
   app.get '/account', app.gate.requireLogin, (req, res) ->
     res.render 'account/account'
 
+  app.get '/account/resume', app.gate.requireLogin, (req, res) ->
+    return res.send(404) if not req.user.resume?.bin
+    console.log req.user.resume.bin.length
+    res.setHeader('Content-Length', req.user.resume.bin.length);
+    res.setHeader('Content-type', req.user.resume.mime);
+    res.write(req.user.resume.bin, 'binary');
+    res.end()
+
 
   ##
   #
