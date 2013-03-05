@@ -64,7 +64,9 @@ exports.bootEveryauth = (app) =>
       hashedPass = app.models.User.encryptPassword password
       app.models.User.findOne  email: email, hashPassword:  hashedPass, (err, user) ->
         return promise.fulfill([err]) if err
-        return promise.fulfill(['Incorrect username or password.']) if user is null
+        if user is null
+          console.log 'no user found'
+          return promise.fulfill(['Incorrect username or password.'])
         user.lastLogin = new Date()
         user.loginCount++
         user.save()
@@ -84,6 +86,7 @@ exports.bootEveryauth = (app) =>
         ";
         # Redirect to home or wherever redirectTo is set to
       redirectTo = data?.session?.redirectTo or '/account'
+      redirectTo = '/account'
       data.session.redirectTo = undefined
       @.redirect(res, redirectTo)
     )
@@ -155,6 +158,7 @@ exports.bootEveryauth = (app) =>
       ";
       # Redirect
       redirectTo = data?.session?.redirectTo or '/account'
+      redirectTo = '/account'
       data.session.redirectTo = undefined
       @.redirect(res, redirectTo)
     )
