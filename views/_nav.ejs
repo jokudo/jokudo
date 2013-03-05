@@ -7,7 +7,17 @@
     </div>
     <div id="user-nav">
       <% if ( !loggedIn ){ %>
-      <a class="btn" href="/login">Sign In</a>
+      <form class="inline inline-right" method="POST" action="/login">
+        <div class="control-block">
+          <input type="email" name="email" placeholder="Email"/>
+        </div>
+        <div class="control-block">
+          <input type="password" name="password" placeholder="Password"/>
+        </div>
+        <div class="control-block">
+          <button type="submit" class="btn loginButton" href="/login">Sign In</button>
+        </div>
+      </form>
       <% } %>
     </div>
   </div>

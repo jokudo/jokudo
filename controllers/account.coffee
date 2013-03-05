@@ -5,7 +5,7 @@ exports = module.exports = (app) ->
 
   # Account information json-style
   app.get '/account', app.gate.requireLogin, (req, res) ->
-    res.json user: req.user, pendingConfirmation: !req.user.confirmed
+    res.render 'account/account'
 
 
   ##
