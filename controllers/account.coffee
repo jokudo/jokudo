@@ -26,7 +26,7 @@ exports = module.exports = (app) ->
   app.get '/account/confirm_email/:hash', (req, res) ->
     app.redisDb.get req.params.hash, (err, userId) ->
       if err or not userId
-        return res.render 'errors/confirm_wrong'
+        return res.redirect '/account'
 
       # Remove this hash
       app.redisDb.del req.params.hash
