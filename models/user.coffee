@@ -118,7 +118,7 @@ UserSchema.virtual('major_string')
 
 UserSchema.virtual('hasResume')
   .get( () ->
-    return @.resume.bin.length > 0
+    return (@.resume.bin?.length) > 0
   )
 
 UserSchema.virtual('resume_name')
