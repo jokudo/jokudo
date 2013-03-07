@@ -1,6 +1,6 @@
 @black: #060709;
-@blue: #3FA9F5;
-@green: #76aa00;
+@blue: lighten(#3FA9F5, 3%);
+@green: #78bb0e;
 @grey:  #444444;
 @darkGrey: #222222;
 @gold: #FCC200;
@@ -18,19 +18,8 @@
 
 
 @nav: #e0e0e0;
+@accentGrey: #f8f8f8;
 @offwhite: #f0f0f0;
 @middleGrey: #a1a1a1;
 
 @shadow: #ccc;
-
-
-/** Mixins **/
-.background-gradient-linear(@from: #ddd, @to: #fff){
-  background-color: @from;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='@{from}', endColorstr='@{to}');
-  background-image: -webkit-gradient(linear, left top, left bottom, from(@from), to(@to));
-  background-image: -moz-linear-gradient(top, @from, @to);
-  background-image: -ms-linear-gradient(top, @from, @to);
-  background-image: -o-linear-gradient(top, @from, @to);
-  background-image: linear-gradient(top, @from, @to);
-}

@@ -1,33 +1,183 @@
 <% include ../_head %>
-  <% include ../_nav %>
 
+  <div class="main">
+    <% include _left_nav %>
 
-  <div class="account">
-    <div class="container">
+    <div class="account">
+      <div class="container">
 
-      <div class="row">
-        <div class="span8 offset2">
-          <h1>Welcome to Jokudo</h1>
-          <p>Your account has been created, but we have not fully finished building the account profile page. We will be sure to let you know when we do, but in the mean time, please check out what the current mockups look like!</p>
+        <!-- Profile Card -->
+        <div class="row profile-info">
+          <div class="span9 profile-card">
+            <img class="banner" src="/images/account-banner.png" alt="" />
+            <div class="profile-image">
+              <img src="<%=user.avatar_large%>" alt="[Profile Picture]"/>
+              <div class="arrow"></div>
+            </div>
+            <div class="profile-information">
+              <h1><%=user.name || "Student"%></h1>
+              <div class="information">
+                <i class="icon icon_bulb"></i><%=user.school_name%>
+              </div>
+              <div class="information">
+                <i class="icon icon_lab"></i>Major: <%=user.major_string%>
+              </div>
+              <div class="information">
+                <i class="icon icon_study"></i><%if(user.graduated){%>Graduated: <%=user.graduation_date%><%}else{%>Graduating: <%=user.graduation_date%><%}%>
+              </div>
+              <div class="information bottom">
+                <i class="icon icon_mail"></i><%=user.email%> <%if(!user.confirmed){%><small>A message has been sent to you to confirm your email address. [<a href="/account/confirm_email_resend">Resend</a>]</small><%}%>
+              </div>
+            </div>
+          </div>
         </div>
-      </div>
 
 
-      <div class="row">
-        <div class="span8 offset2">
-          <img src="http://i.imgur.com/YQBGMBM.png" alt="http://i.imgur.com/YQBGMBM.png"/>
+        <!-- Welcome text -->
+        <div class="row">
+          <div class="span12 welcome-message">
+            <p>
+              Welcome to your profile page. This is how you will appear to other people and companies. Be sure to keep your information up to date!
+            </p>
+          </div>
         </div>
-      </div>
-      <div class="row"><h2>&nbsp;</h2></div>
 
-      <div class="row">
-        <div class="span8 offset2">
-          <img src="http://i.imgur.com/NP3oKsA.png" alt="http://i.imgur.com/NP3oKsA.png"/>
+
+        <!-- Resume information -->
+        <div class="profile-settings">
+          <h1>Resume:</h1>
+          <div class="row">
+            <div class="span6">
+              <label for="resume">Locate your resume</label>
+              <div class="file-group">
+                <input type="text" id="upload-resume" onFocus="document.getElementById('resume').click();this.blur()"/>
+                <button type="button" class="btn resume-upload" style="position: relative;">
+                  Upload
+                  <input type="file" name="resume" id="resume" style="position: absolute; top:0; left:0; width: 100%; height:100%; margin:0; padding:0; opacity:0;" title="Upload your resumé" onChange="document.getElementById('upload-resume').value=this.value.split(/(\\|\/)/g).pop()"/>
+                </button>
+              </div>
+            </div>
+
+            <div class="span6">
+              <label>Current:</label>
+              <div class="value">
+                <%=user.resume_name%> <%if (user.hasResume) {%>(<a href="/account/resume" target="_blank">download</a><%}%>
+              </div>
+            </div>
+
+          </div>
         </div>
+
+
+        <!-- Name settings -->
+        <div class="profile-settings">
+          <h1>Name:</h1>
+          <div class="row">
+            <div class="span4">
+              <label>First:</label>
+              <div class="value">
+                <input type="text" id="user.firstName" value="<%=user.firstName||''%>"/>
+              </div>
+            </div>
+
+            <div class="span4">
+              <label>Middle <small>(optional)</small>:</label>
+              <div class="value">
+                <input type="text" id="user.middleName" value="<%=user.middleName||''%>"/>
+              </div>
+            </div>
+
+            <div class="span4">
+              <label>Last:</label>
+              <div class="value">
+                <input type="text" id="user.lastName" value="<%=user.lastName||''%>"/>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+
+        <!-- STUDY settings -->
+        <div class="profile-settings">
+          <div class="row">
+            <div class="span6">
+              <h1>Major:</h1>
+              <div class="value">
+                <input type="text" id="user.major" value="<%=user.major||''%>"/>
+                <div class="add">+ add</div>
+              </div>
+            </div>
+
+            <div class="span6">
+              <h1>Minor:</h1>
+              <div class="value">
+                <input type="text" id="user.minor" value="<%=user.minor||''%>"/>
+                <div class="add">+ add</div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+
+        <!-- Graduation settings -->
+        <div class="profile-settings">
+          <h1>Expected Graduation Date:</h1>
+          <div class="row">
+            <div class="span2">
+              <label>Month:</label>
+              <div class="value">
+                <select>
+                  <option value="1">January</option>
+                  <option value="2">February</option>
+                  <option value="3">March</option>
+                  <option value="4">April</option>
+                  <option value="5">May</option>
+                  <option value="6">June</option>
+                  <option value="7">July</option>
+                  <option value="8">August</option>
+                  <option value="9">September</option>
+                  <option value="10">October</option>
+                  <option value="11">November</option>
+                  <option value="12">December</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="span2">
+              <label>Year:</label>
+              <div class="value">
+                <select>
+                  <% yearSet.forEach(function(i){ %>
+                  <option value="<%=i%>" <%if(user.graduation_year==i){%>selected="true"<%}%>><%=i%></option>
+                  <%})%>
+                </select>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+
+
+
+        <div class="row">
+          <div class="span12">
+            <img src="http://i.imgur.com/YQBGMBM.png" alt="http://i.imgur.com/YQBGMBM.png"/>
+          </div>
+        </div>
+        <div class="row"><h2>&nbsp;</h2></div>
+
+        <div class="row">
+          <div class="span8 offset2">
+            <img src="http://i.imgur.com/NP3oKsA.png" alt="http://i.imgur.com/NP3oKsA.png"/>
+          </div>
+        </div>
+
+
+
       </div>
-
-
-
     </div>
   </div>
 

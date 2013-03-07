@@ -5,7 +5,10 @@ exports = module.exports = (app) ->
 
   # Account information json-style
   app.get '/account', app.gate.requireLogin, (req, res) ->
-    res.render 'account/account'
+    thisYear = (new Date()).getFullYear()
+    yearSet  = [thisYear-20..thisYear+8]
+    app.models.School.find {}, (err, schools) ->
+      res.render 'account/account', schools: schools, yearSet: yearSet
 
   app.get '/account/resume', app.gate.requireLogin, (req, res) ->
     return res.send(404) if not req.user.resume?.bin
@@ -21,6 +24,11 @@ exports = module.exports = (app) ->
   # Email account confirmation
   #
   ##
+
+  # Resend confirmation
+  app.get '/account/confirm_email_resend', app.gate.requireLogin, (req, res) ->
+    req.user.sendConfirmationEmail()
+    res.redirect '/account'
 
   # Confirm Email
   app.get '/account/confirm_email/:hash', (req, res) ->

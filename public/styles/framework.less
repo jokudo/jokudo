@@ -54,13 +54,30 @@ input[type="email"]:focus,
 input[type="url"]:focus,
 input[type="search"]:focus,
 input[type="tel"]:focus,
-input[type="color"]:focus {
+input[type="color"]:focus,
+select:focus {
   border-color: @green;
   outline: 0;
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
   box-shadow: none;
 }
+
+select{
+  background: url(/images/select-arrow.png) no-repeat center right @white;
+  width: 100%;
+  border: 3px solid @middleGrey;
+  border-radius: 0;
+  @speed: 0.1s;
+  -webkit-transition: border linear @speed;
+  -moz-transition: border linear @speed;
+  -o-transition: border linear @speed;
+  transition: border linear @speed;
+  padding: 5px;
+  color: @grey;
+  -webkit-appearance: none;
+}
+
 
 
 
@@ -103,6 +120,12 @@ button:hover,.btn:hover{
 }
 
 
+
+.main{
+  position: relative;
+  display: inline-block;
+  width: 100%;
+}
 
 
 form.inline{

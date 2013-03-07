@@ -111,11 +111,6 @@ exports.bootEveryauth = (app) =>
     )
     .validateRegistration((newUserAttributes) ->
 
-      binary = fs.readFileSync newUserAttributes.resume.path
-      if binary.length > 1000000 or binary.length < 0 or newUserAttributes.resume.path is ''
-        newUserAttributes.resume = undefined
-
-
       if not newUserAttributes.email or not newUserAttributes.email.match /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.edu$/i
         return ["You must use a valid .edu email"]
       # if not newUserAttributes.name.first or not newUserAttributes.name.last
@@ -138,7 +133,7 @@ exports.bootEveryauth = (app) =>
             lastName: newUserAttributes.name.last
           user.setPassword newUserAttributes.password
           user.changeEmail newUserAttributes.email
-          user.saveResume newUserAttributes.resume if newUserAttributes.resume
+          user.saveResume newUserAttributes.resume if newUserAttributes.resume.size > 0
           user.save (err) ->
             if err
               return promise.fulfill([err])

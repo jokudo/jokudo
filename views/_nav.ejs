@@ -20,7 +20,12 @@
       </form>
       <% } else {%>
       <ul>
-        <li><a class="btn l" href="/logout">Sign Out</a></li>
+        <li>
+          <a href="/account">
+            <img class="avatar" src="<%=user.avatar%>" />
+            <button class="btn hello">hey <%=user.firstName || 'there'%>!</button>
+          </a>
+        </li>
       </ul>
       <% } %>
     </div>

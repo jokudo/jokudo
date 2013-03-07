@@ -47,12 +47,17 @@
     border-width: 1px;
     padding: 6px 5px;
   }
-  button, .btn{
+  a:hover{
+    text-decoration: none;
+  }
+  .btn{
     background: @white;
     color: @grey;
+    border-color: lighten(@middleGrey, 15%);
     border-width: 1px;
-    font-weight: 300;
-    padding: 6px 20px;
+    height: 34px;
+    margin-top: -1px;
+    padding: 8px 20px;
     &:hover{
       text-decoration: none;
     }
@@ -63,6 +68,18 @@
       color: @green;
       font-weight: 600;
     }
+  }
+  img.avatar{
+    @size: 34px;
+    height: @size;
+    width: @size;
+    display: inline-block;
+    border: 1px solid lighten(@middleGrey, 15%);
+    border-right-width: 0px;
+    margin-right: -3px;
+  }
+  .hello{
+    border-left-width: 0px;
   }
 }
 

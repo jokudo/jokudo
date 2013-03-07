@@ -19,7 +19,7 @@ exports.boot = module.exports.boot = (app) ->
 
     res.locals.distinctId = req.sessionID
 
-    res.locals.user = req.user?
+    res.locals.user = req.user or req.session.user
 
     res.locals.mixpanel = () ->
       [result, req.session.mixpanelInjection] = [req.session.mixpanelInjection, '']

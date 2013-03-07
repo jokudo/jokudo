@@ -23,9 +23,18 @@ UserSchema = new Schema(
     type: String
     index: true
   firstName: String
+  middleName: String
   lastName: String
+
+  school:
+    type: Schema.ObjectId
+    ref: 'School'
+  _school: String
+  major: [String]
+  graduation: Date
   resume:
     mime: String
+    name: String
     bin: Buffer
   confirmed:
     type: Boolean
@@ -60,12 +69,65 @@ UserSchema.virtual('id')
   .get( () -> this._id.toHexString() )
 
 UserSchema.virtual('name')
-  .get( () -> "#{@.firstName} #{@.lastName}".trim() )
+  .get( () -> "#{@.firstName || ''} #{@.lastName || ''}".trim() )
   .set( (fullName) ->
     p = fullName.split ' '
     @.firstName = p[0]
     @.lastName = p[1]
   )
+
+UserSchema.virtual('avatar')
+  .get( () -> "https://secure.gravatar.com/avatar/#{crypto.MD5(@.email)}?s=75&d=identicon" )
+
+UserSchema.virtual('avatar_large')
+  .get( () -> "https://secure.gravatar.com/avatar/#{crypto.MD5(@.email)}?s=250&d=identicon" )
+
+
+UserSchema.virtual('avatar_large')
+  .get( () -> "https://secure.gravatar.com/avatar/#{crypto.MD5(@.email)}?s=250&d=identicon" )
+
+
+UserSchema.virtual('school_name')
+  .get( () ->
+    @._school or 'No School Set'
+  )
+
+UserSchema.virtual('graduation_date')
+  .get( () ->
+    if not @.graduation
+      return "Not specified"
+    else
+      return "#{@.graduation.getMonth()} #{@.graduation.getFullYear()}"
+  )
+  .set( (date) -> @.graduation = date )
+
+UserSchema.virtual('graduation_year')
+  .get( () ->
+    if not @.graduation
+      return (new Date()).getFullYear()
+    else
+      return @.graduation.getFullYear()
+  )
+
+
+UserSchema.virtual('major_string')
+  .get( () ->
+    return @.major.join(' and ') or 'Undeclaired'
+  )
+
+
+UserSchema.virtual('hasResume')
+  .get( () ->
+    return @.resume.bin.length > 0
+  )
+
+UserSchema.virtual('resume_name')
+  .get( () ->
+    if @.hasResume
+      return @.resume.name or 'resume'
+    else
+      return 'none'
+ )
 
 UserSchema.method 'changeEmail', (newEmail) ->
   # Put the new email into the _email property
@@ -79,6 +141,7 @@ UserSchema.method 'confirmEmail', (email) ->
   @.confirmed = true
 
 UserSchema.method 'saveResume', (resumeFile) ->
+  @.resume.name = resumeFile.name
   @.resume.mime = resumeFile.mime
   @.resume.bin = fs.readFileSync resumeFile.path
 

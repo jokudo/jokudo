@@ -74,11 +74,11 @@ exports.boot = (app) ->
       store: new RedisStore(client: sessionStore)
     )
 
-    # Helpers
-    helpers.boot app
-
     # Bind in the everyauth middleware
     app.use everyauth.middleware(app)
+
+    # Helpers
+    helpers.boot app
 
     # Bind in our onlineNow user count middleware
     onlineNow app

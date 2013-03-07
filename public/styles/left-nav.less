@@ -1,0 +1,68 @@
+.left-nav{
+  position: absolute;
+  left: 0;
+  top: 0;
+  .j{
+    width: 60px;
+    img{
+      width: 50px;
+      margin: 0 5px;
+    }
+    margin: 12px 0 13px;
+  }
+
+  .menu{
+    width: 60px;
+    background: #292929;
+    border-top: 2px solid @green;
+    border-right: 3px solid @green;
+
+    .option{
+      width: 57px;
+      height: 60px;
+      background-color: #1d1d1d;
+      border-bottom: 1px solid #3f3f3f;
+      position: relative;
+      &:hover{
+        background-color: lighten(#1d1d1d, 10%);
+      }
+      &.active, &.active:hover{
+        background-color: @green;
+      }
+      .icon{
+        width: 24px;
+        height: 24px;
+        margin: 15px 0 0 16px;
+      }
+      .overlay{
+        width: 35px;
+        text-align: center;
+        font-weight: 600;
+        position: absolute;
+        top: 0;
+        left: 0;
+        margin: 25px 0 0 10px;
+        background: fade(@grey, 60%);
+        color: white;
+        text-shadow: 0 0 4px black;
+        font-size: 15px;
+        line-height: 22px;
+        &.message{
+          background: fade(@blue, 60%);
+        }
+        &.alert{
+          background: fade(@red, 60%);
+        }
+      }
+    }
+  }
+
+
+}
+
+@media (scroll-top: 10px) {
+  .left-nav{
+    postition: fixed;
+    background: red;
+  }
+}
