@@ -31,6 +31,7 @@ UserSchema = new Schema(
     ref: 'School'
   _school: String
   major: [String]
+  minor: [String]
   graduation: Date
   resume:
     mime: String
@@ -94,12 +95,38 @@ UserSchema.virtual('school_name')
 
 UserSchema.virtual('graduation_date')
   .get( () ->
+    months = [
+      "January"
+      "February"
+      "March"
+      "April"
+      "May"
+      "June"
+      "July"
+      "August"
+      "September"
+      "October"
+      "November"
+      "December"
+    ]
     if not @.graduation
       return "Not specified"
     else
-      return "#{@.graduation.getMonth()} #{@.graduation.getFullYear()}"
+      return "#{months[@.graduation_month-1]} #{@.graduation_year}"
   )
   .set( (date) -> @.graduation = date )
+
+UserSchema.virtual('graduation_month')
+  .get( () ->
+    if not @.graduation
+      return (new Date()).getMonth() + 1
+    else
+      return @.graduation.getMonth() + 1
+  )
+  .set( (month) ->
+    @.graduation = new Date() if not @.graduation
+    @.graduation.setMonth(month)
+  )
 
 UserSchema.virtual('graduation_year')
   .get( () ->
@@ -107,6 +134,15 @@ UserSchema.virtual('graduation_year')
       return (new Date()).getFullYear()
     else
       return @.graduation.getFullYear()
+  )
+  .set( (year) ->
+    @.graduation = new Date() if not @.graduation
+    @.graduation.setYear(year)
+  )
+
+UserSchema.virtual('graduated')
+  .get( () ->
+    return @.graduation < new Date()
   )
 
 

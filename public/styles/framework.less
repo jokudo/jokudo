@@ -102,6 +102,10 @@ button,.btn{
   -moz-transition: border linear @speed, box-shadow linear @speed;
   -o-transition: border linear @speed, box-shadow linear @speed;
   transition: border linear @speed, box-shadow linear @speed;
+  &.green{
+    background-color: @green;
+    border-color: @green;
+  }
 }
 button:hover,.btn:hover{
   @inner-glow: rgba(0, 0, 0, 0.1);
@@ -109,6 +113,15 @@ button:hover,.btn:hover{
   -moz-box-shadow: inset 0 1px 1px @inner-glow;
   box-shadow: inset 0 1px 1px @inner-glow;
   background: darken(@middleGrey, 3%);
+  color: @white;
+  text-decoration: none;
+  &.green{
+    background-color: @green;
+    @inner-glow: rgba(0, 0, 0, .2);
+    -webkit-box-shadow: inset 0 1px 1px @inner-glow;
+    -moz-box-shadow: inset 0 1px 1px @inner-glow;
+    box-shadow: inset 0 1px 1px @inner-glow;
+  }
 }
 
 

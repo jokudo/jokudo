@@ -8,11 +8,41 @@ exports = module.exports = (app) ->
     thisYear = (new Date()).getFullYear()
     yearSet  = [thisYear-20..thisYear+8]
     app.models.School.find {}, (err, schools) ->
+      console.log req.user
       res.render 'account/account', schools: schools, yearSet: yearSet
+
+  app.post '/account', app.gate.requireLogin, (req, res) ->
+    resume = req.files.resume
+
+    if resume.size > 0
+      req.user.saveResume resume
+
+    req.user.firstName = req.body['user.firstName'].trim()
+    req.user.middleName = req.body['user.middleName'].trim()
+    req.user.lastName = req.body['user.lastName'].trim()
+
+    if typeof req.body['user.major'][0] is 'object'
+      req.user.major = req.body['user.major'][0].map((val) -> val.trim()).filter (e) -> return e isnt ''
+    else
+      req.user.major = req.body['user.major'].map((val) -> val.trim()).filter (e) -> return e isnt ''
+
+    if typeof req.body['user.minor'][0] is 'object'
+      req.user.minor = req.body['user.minor'][0].map((val) -> val.trim()).filter (e) -> return e isnt ''
+    else
+      req.user.minor = req.body['user.minor'].map((val) -> val.trim()).filter (e) -> return e isnt ''
+
+
+
+    graduationDate = new Date "#{req.body['user.graduation.month']}/1/#{req.body['user.graduation.year']}"
+    if graduationDate
+      req.user.graduation = graduationDate or req.user.graduation
+
+    req.user.save () -> console.log arguments[1].graduation_date
+
+    res.redirect '/account'
 
   app.get '/account/resume', app.gate.requireLogin, (req, res) ->
     return res.send(404) if not req.user.resume?.bin
-    console.log req.user.resume.bin.length
     res.setHeader('Content-Length', req.user.resume.bin.length);
     res.setHeader('Content-type', req.user.resume.mime);
     res.write(req.user.resume.bin, 'binary');
