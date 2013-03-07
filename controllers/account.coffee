@@ -8,7 +8,6 @@ exports = module.exports = (app) ->
     thisYear = (new Date()).getFullYear()
     yearSet  = [thisYear-20..thisYear+8]
     app.models.School.find {}, (err, schools) ->
-      console.log req.user
       res.render 'account/account', schools: schools, yearSet: yearSet
 
   app.post '/account', app.gate.requireLogin, (req, res) ->
