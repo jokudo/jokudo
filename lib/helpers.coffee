@@ -1,32 +1,33 @@
+exports.wrapper = (req) ->
+  result = {}
+
+  result.request = req
+
+  result.loggedIn = !!(req.session?.auth?.loggedIn)
+
+  result.messages = (require 'express-messages-bootstrap')(req);
+
+  result.domain = process.env.DOMAIN;
+
+  result.path = req.route?.path or "";
+
+  result.distinctId = req.sessionID
+
+  result.user = req.user or req.session.user
+
+  result.mixpanel = () ->
+    [result, req.session.mixpanelInjection] = [req.session.mixpanelInjection, '']
+    result
+
+  result
+
+
 exports.boot = module.exports.boot = (app) ->
   app.use (req, res, next) ->
-
-    res.locals.request = req
-
-    res.locals.loggedIn = !!(req.session?.auth?.loggedIn)
-
-    res.locals.messages = (require 'express-messages-bootstrap')(req);
-
-    res.locals.domain = process.env.DOMAIN;
-
-    res.locals.path = req.route?.path or "";
-
-    res.locals.base = ('/' == app.route) ? '' : app.route;
-
-    res.locals.revision = app.settings.revision or ''
-
-    res.locals.mode = app.settings.env
-
-    res.locals.distinctId = req.sessionID
-
-    res.locals.user = req.user or req.session.user
-
-    res.locals.mixpanel = () ->
-      [result, req.session.mixpanelInjection] = [req.session.mixpanelInjection, '']
-      result
-
+    locals = exports.wrapper(req)
+    for prop, val of locals
+      res.locals[prop] = val
     next()
-
 
   app.locals.mp = app.mixpanel
 

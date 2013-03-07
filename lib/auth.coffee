@@ -1,5 +1,6 @@
 everyauth = require 'everyauth'
 fs        = require 'fs'
+helpers   = require './helpers'
 
 exports.requireLogin = (req, res, next) ->
   if not req.loggedIn
@@ -50,9 +51,10 @@ exports.bootEveryauth = (app) =>
     .postLoginPath("/login")
     .loginView("account/login")
     .loginLocals( (req, res) ->
-      locals = res.locals
+      locals = helpers.wrapper(req)
       for prop, val of app.locals
         locals[prop] = val
+      locals['domain'] = process.env.domain
       locals
     )
     .loginWith("email")
