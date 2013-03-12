@@ -74,8 +74,13 @@ exports = module.exports = (app) ->
           return res.render 'errors/confirm_wrong'
         # Here we have a user and a correct hash
         user.confirmEmail()
-        user.save (err) ->
-          res.redirect '/account'
+        schoolEmailUrl = user.email.match /@(:?[a-zA-Z0-9-]+\.)?([a-zA-Z0-9-]+\.edu)/
+        app.models.School.findOne email: schoolEmailUrl[2], (err, school) ->
+          if school
+            user.school = school
+            user._school = school.name
+          user.save (err) ->
+            res.redirect '/account'
 
 
 
