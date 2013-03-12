@@ -31,7 +31,6 @@ exports = module.exports = (app) ->
       req.user.minor = req.body['user.minor'].map((val) -> val.trim()).filter (e) -> return e isnt ''
 
 
-
     graduationDate = new Date "#{req.body['user.graduation.month']}/1/#{req.body['user.graduation.year']}"
     if graduationDate
       req.user.graduation = graduationDate or req.user.graduation
