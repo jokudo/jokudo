@@ -99,9 +99,10 @@ exports.bootEveryauth = (app) =>
     .postRegisterPath("/register")
     .registerView("account/register")
     .registerLocals( (req, res) ->
-      locals = res.locals
+      locals = helpers.wrapper(req)
       for prop, val of app.locals
         locals[prop] = val
+      locals['domain'] = process.env.domain
       locals
     )
     .extractExtraRegistrationParams((req) ->
