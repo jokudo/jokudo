@@ -17,18 +17,26 @@
     background: #292929;
     border-top: 2px solid @green;
     border-right: 3px solid @green;
-
+    position: relative;
     .option{
       width: 57px;
       height: 60px;
       background-color: #1d1d1d;
       border-bottom: 1px solid #3f3f3f;
       position: relative;
+      cursor: pointer;
       &:hover{
         background-color: lighten(#1d1d1d, 10%);
       }
       &.active, &.active:hover{
         background-color: @green;
+      }
+      &.exit{
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        border-bottom: none;
+        border-top: 1px solid #3f3f3f;
       }
       .icon{
         width: 24px;

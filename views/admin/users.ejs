@@ -1,0 +1,43 @@
+<% include ../_head %>
+  <% include ../_nav %>
+
+  <div class="container">
+    <div class="row">
+      <div class="span12">
+        <h1>Users</h1>
+        <h5><a href="/admin">back</a></h5>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="span12">
+        <dl>
+          <dt>Count:</dt>
+          <dd><%=users.length%></dd>
+        </dl>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="span12">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>Email</th>
+              <th>Resume</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% for(var _i=0,_len=users.length,user=users[_i];_i<_len;user=users[_i++]){%>
+            <tr>
+              <td><%=user.email%></td>
+              <td><%if (user.hasResume) {%><a href="/admin/users/<%=user.id%>/resume/<%=user.resume_name%>" target="_blank"><%=user.resume_name%></a><%}else{%>&mdash;<%}%></td>
+            </tr>
+            <%}%>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+<% include ../_foot %>
