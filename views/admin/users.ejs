@@ -34,6 +34,7 @@
             <% users.forEach(function(user){%>
             <tr>
               <td><%=user.email%></td>
+              <td><%=user.school_name%></td>
               <td><%if (user.hasResume) {%><a href="/admin/users/<%=user.id%>/resume/<%=user.resume_name%>" target="_blank"><%=user.resume_name%></a><%}else{%>&mdash;<%}%></td>
             </tr>
             <%})%>
