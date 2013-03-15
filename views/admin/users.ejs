@@ -31,12 +31,12 @@
             </tr>
           </thead>
           <tbody>
-            <% for(var _i=0,_len=users.length,user=users[_i];_i<_len;user=users[_i++]){%>
+            <% users.forEach(function(user){%>
             <tr>
               <td><%=user.email%></td>
               <td><%if (user.hasResume) {%><a href="/admin/users/<%=user.id%>/resume/<%=user.resume_name%>" target="_blank"><%=user.resume_name%></a><%}else{%>&mdash;<%}%></td>
             </tr>
-            <%}%>
+            <%})%>
           </tbody>
         </table>
       </div>
