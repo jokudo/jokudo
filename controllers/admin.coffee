@@ -23,7 +23,7 @@ exports = module.exports = (app) ->
             user.save()
       res.json 'ok'
 
-  app.get '/admin/users/:id/resume/:name.:format', app.gate.requireAdmin, (req, res) ->
+  app.get '/admin/users/:id/resume/:name.:format?', app.gate.requireAdmin, (req, res) ->
     app.models.User.findById req.params.id, (err, user) ->
       return res.send(404) if not user?.resume?.bin
       res.setHeader('Content-Length', user.resume.bin.length);
