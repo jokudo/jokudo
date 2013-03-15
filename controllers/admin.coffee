@@ -14,13 +14,8 @@ exports = module.exports = (app) ->
       res.send 500 if err
       res.send 404 if not users
 
-      for user in users
-        schoolEmailUrl = user.email.match /@(:?[a-zA-Z0-9-]+\.)?([a-zA-Z0-9-]+\.edu)/
-        app.models.School.findOne email: schoolEmailUrl[2], (err, school) ->
-          if school
-            user.school = school
-            user._school = school.name
-            user.save()
+      setSchool(user) for user in users
+
       res.json 'ok'
 
   app.get '/admin/users/:id/resume/:name.:format?', app.gate.requireAdmin, (req, res) ->
@@ -30,3 +25,12 @@ exports = module.exports = (app) ->
       res.setHeader('Content-type', user.resume.mime);
       res.write(user.resume.bin, 'binary');
       res.end()
+
+
+  setSchool = (user) ->
+    schoolEmailUrl = user.email.match /@(:?[a-zA-Z0-9-]+\.)?([a-zA-Z0-9-]+\.edu)/
+    app.models.School.findOne email: schoolEmailUrl[2], (err, school) ->
+      if school
+        user.school = school
+        user._school = school.name
+        user.save()
