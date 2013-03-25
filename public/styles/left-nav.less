@@ -23,6 +23,7 @@
       height: 60px;
       background-color: #1d1d1d;
       border-bottom: 1px solid #3f3f3f;
+      display: block;
       position: relative;
       cursor: pointer;
       &:hover{
@@ -40,6 +41,9 @@
         .title{
           color: darken(@white, 30%);
         }
+      }
+      &.hide{
+        display: none;
       }
       .icon{
         width: 24px;
