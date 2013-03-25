@@ -1,0 +1,49 @@
+<% include ../_head %>
+  <% include ../_nav %>
+
+
+  <div class="container">
+    <div class="row">
+      <div class="span12">
+        <h1>Job Posting <small><%if(posting.isNew){%>New<%}else{%>Edit<%}%></small></h1>
+      </div>
+    </div>
+    <div class="row">
+      <div class="span12">
+
+        <form class="form-horizontal" action="/admin/postings" method="POST">
+          <%if(!posting.isNew){%>
+          <input type="hidden" id="_id" name="_id" value="<%=posting.id%>">
+          <%}%>
+          <div class="control-group">
+            <label class="control-label" for="company">Company Name</label>
+            <div class="controls">
+              <input type="text" id="company" name="company" value="<%=posting.company||''%>" class="input-xlarge">
+            </div>
+          </div>
+          <div class="control-group">
+            <label class="control-label" for="title">Job Title</label>
+            <div class="controls">
+              <input type="text" id="title" name="title" value="<%=posting.title||''%>" class="input-xlarge">
+            </div>
+          </div>
+          <div class="control-group">
+            <label class="control-label" for="description">Job Description</label>
+            <div class="controls">
+              <textarea rows="4" name="description" id="description" class="input-xlarge"><%=posting.description||''%></textarea>
+            </div>
+          </div>
+          <div class="control-group">
+            <div class="controls">
+              <button type="submit" class="btn"><%if(posting.isNew){%>Create<%}else{%>Save<%}%></button>
+            </div>
+          </div>
+        </form>
+
+
+
+      </div>
+    </div>
+  </div>
+
+<% include ../_foot %>
