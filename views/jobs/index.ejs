@@ -1,0 +1,14 @@
+<% include ../_head %>
+  <% include ../_nav %>
+  <div class="main">
+    <% include ../_left_nav %>
+    <div class="jobs">
+      <%=path%>
+    </div>
+  </div>
+  <% include ../_footer %>
+<% include ../_foot %>
+
+<script>
+  window.scrollTo(window.scrollX, window.scrollY+document.getElementById('header').offsetHeight);
+</script>

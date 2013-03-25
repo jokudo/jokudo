@@ -9,7 +9,7 @@ exports.wrapper = (req) ->
 
   result.domain = process.env.DOMAIN;
 
-  result.path = req.route?.path or "";
+  result.path = (req.url.split('/')||['',''])[1..];
 
   result.distinctId = req.sessionID
 

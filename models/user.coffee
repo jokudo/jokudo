@@ -90,7 +90,7 @@ UserSchema.virtual('avatar_large')
 
 UserSchema.virtual('school_name')
   .get( () ->
-    @._school or 'No School Set'
+    @._school or 'Pending Email Confirmation'
   )
 
 UserSchema.virtual('graduation_date')

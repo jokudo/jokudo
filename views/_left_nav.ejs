@@ -4,9 +4,9 @@
   </div>
   <div class="menu" id="left-nav-menu-container">
 
-
-    <div class="option active" onClick="window.location='/account'" title="Profile">
+    <div class="option <%if(path[0]=="account"){%>active<%}%>" onClick="window.location='/account'" title="Profile">
       <i class="icon icon_user white"></i>
+      <div class="title">Profile</div>
     </div>
 
     <div class="option hide">
@@ -14,8 +14,9 @@
       <div class="overlay message">5</div>
     </div>
 
-    <div class="option hide">
+    <div class="option <%if(path[0]=="jobs"){%>active<%}%>" onClick="window.location='/jobs'" title="Job Postings">
       <i class="icon icon_shop white"></i>
+      <div class="title">Jobs</div>
     </div>
 
     <div class="option hide">
@@ -28,6 +29,7 @@
 
     <div class="option exit" onClick="window.location='/logout'" title="Logout">
       <i class="icon icon_key white"></i>
+      <div class="title">Logout</div>
     </div>
 
 
