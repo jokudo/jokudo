@@ -2,27 +2,14 @@
   <% include ../_nav %>
   <div class="main">
     <% include ../_left_nav %>
-    <div class="jobs">
+    <div class="jobs container">
       <div class="row">
         <div class="span12">
-          <table class="table table-striped">
-            <thead>
-              <tr>
-                <th>Company</th>
-                <th>Job Title</th>
-                <th>Description</th>
-              </tr>
-            </thead>
-            <tbody>
-              <% postings.forEach(function(posting){%>
-              <tr>
-                <td><%=posting.company%></td>
-                <td><a href="/jobs/<%=posting.id%>"><%=posting.title%></a></td>
-                <td><%=posting.description%></td>
-              </tr>
-              <%})%>
-            </tbody>
-          </table>
+          <div class="row job-container">
+            <% postings.forEach(function(job){%>
+              <% include _job-card %>
+            <% }) %>
+          </div>
         </div>
       </div>
     </div>

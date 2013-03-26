@@ -1,3 +1,5 @@
+marked = require 'marked'
+
 exports.wrapper = (req) ->
   result = {}
 
@@ -18,6 +20,8 @@ exports.wrapper = (req) ->
   result.mixpanel = () ->
     [result, req.session.mixpanelInjection] = [req.session.mixpanelInjection, '']
     result
+
+  result.marked = marked
 
   result
 

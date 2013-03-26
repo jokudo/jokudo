@@ -28,6 +28,21 @@
             </div>
           </div>
           <div class="control-group">
+            <label class="control-label" for="location">Location</label>
+            <div class="controls">
+              <input type="text" id="location" name="location" value="<%=posting.location||''%>" class="input-xlarge">
+            </div>
+          </div>
+          <div class="control-group">
+            <label class="control-label" for="schedule">Schedule</label>
+            <div class="controls">
+              <select id="schedule" name="schedule">
+                <option value="Full-Time"<%if(posting.schedule=='Full-Time'){%> chosen<%}%>>Full-Time</option>
+                <option value="Part-Time"<%if(posting.schedule=='Part-Time'){%> chosen<%}%>>Part-Time</option>
+              </select>
+            </div>
+          </div>
+          <div class="control-group">
             <label class="control-label" for="description">Job Description</label>
             <div class="controls">
               <textarea rows="4" name="description" id="description" class="input-xlarge"><%=posting.description||''%></textarea>

@@ -1,4 +1,33 @@
 .jobs{
-  padding-left: 62px;
+  padding-left: 0;
   margin-bottom: 75px;
+  margin-top: 20px;
+}
+
+.job-card{
+  background: @white;
+  border: 2px solid darken(@white, 10%);
+  padding: 10px;
+  font-size: 15px;
+  .title{
+    h1{
+      margin: 0;
+      font-size: 20px;
+      font-weight: 600;
+      line-height: 28px;
+    }
+  }
+  .company{
+    font-weight: 400;
+  }
+  .location{
+    font-weight: 200;
+    color: @middleGrey;
+  }
+  .schedule{
+    font-weight: 200;
+    font-size: 11px;
+    line-height: 11px;
+    color: @middleGrey;
+  }
 }

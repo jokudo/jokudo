@@ -29,6 +29,13 @@
               <div class="information bottom">
                 <i class="icon icon_mail"></i><%=user.email%> <%if(!user.confirmed){%><small>A message has been sent to you to confirm your email address. [<a href="/account/confirm_email_resend">Resend</a>]</small><%}%>
               </div>
+              <div class="information bottom right">
+                <% if (user.urls.github){%><a href="<%=user.github_url%>" target="_blank"><i class="icon icon_github"></i></a><%}%>
+                <% if (user.urls.twitter){%><a href="<%=user.twitter_url%>" target="_blank"><i class="icon icon_twitter"></i></a><%}%>
+                <% if (user.urls.linkedin){%><a href="<%=user.linkedin_url%>" target="_blank"><i class="icon icon_linkedin"></i></a><%}%>
+                <% if (user.urls.facebook){%><a href="<%=user.facebook_url%>" target="_blank"><i class="icon icon_facebook"></i></a><%}%>
+                <% if (user.urls.personal){%><a href="<%=user.personal_url%>" target="_blank"><i class="icon icon_world"></i></a><%}%>
+              </div>
             </div>
           </div>
         </div>
@@ -38,7 +45,7 @@
         <div class="row">
           <div class="span12 welcome-message">
             <p>
-              Welcome to your profile page. This is how you will appear to other people and companies. Be sure to keep your information up to date!
+              Welcome to your profile page. This card is how you will appear to other people and companies. Be sure to keep your information up to date!
             </p>
           </div>
         </div>
@@ -114,8 +121,6 @@
         </div>
 
 
-
-
         <!-- Resume information -->
         <div class="profile-settings">
           <h1>Resume:</h1>
@@ -140,7 +145,6 @@
 
           </div>
         </div>
-
 
 
         <!-- Graduation settings -->
@@ -180,6 +184,75 @@
 
           </div>
         </div>
+
+
+        <!-- Website Settings -->
+        <div class="profile-settings">
+          <h1>Websites:</h1>
+
+
+          <div class="row">
+            <div class="span5">
+              <label>Personal:</label>
+              <div class="value">
+                <div class="input-prepend">
+                  <span class="add-on">http://</span>
+                  <input class="span2" style="width: 349px;" name="user.urls.personal" type="text" placeholder="personal website" value="<%=user.urls.personal||''%>">
+                </div>
+              </div>
+            </div>
+<!--           </div>
+
+          <div class="row"> -->
+            <div class="span5">
+              <label>LinkedIn:</label>
+              <div class="value">
+                <div class="input-prepend">
+                  <span class="add-on">linkedin.com/in/</span>
+                  <input class="span2" style="width: 285px;" name="user.urls.linkedin" type="text" placeholder="LinkedIn" value="<%=user.urls.linkedin||''%>">
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="span5">
+              <label>Github:</label>
+              <div class="value">
+                <div class="input-prepend">
+                  <span class="add-on">github.com/</span>
+                  <input class="span2" style="width: 309px;" name="user.urls.github" type="text" placeholder="github username" value="<%=user.urls.github||''%>">
+                </div>
+              </div>
+            </div>
+<!--           </div>
+
+          <div class="row"> -->
+            <div class="span5">
+              <label>Twitter:</label>
+              <div class="value">
+                <div class="input-prepend">
+                  <span class="add-on">@</span>
+                  <input class="span2" style="width: 378px;" name="user.urls.twitter" type="text" placeholder="twitter handle" value="<%=user.urls.twitter||''%>">
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="span5">
+              <label>Facebook:</label>
+              <div class="value">
+                <div class="input-prepend">
+                  <span class="add-on">facebook.com/</span>
+                  <input class="span2" style="width: 288px;" name="user.urls.facebook" type="text" placeholder="facebook url" value="<%=user.urls.facebook||''%>">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
 
 
         <!-- Save information -->

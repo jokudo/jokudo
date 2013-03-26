@@ -16,9 +16,6 @@
           <dd><%=postings.length%></dd>
         </dl>
       </div>
-      <div class="span6">
-        <a href="/admin/postings/new">New Job Posting</a>
-      </div>
     </div>
 
     <div class="row">
@@ -36,13 +33,20 @@
             <tr>
               <td><%=posting.company%></td>
               <td><a href="/admin/postings/<%=posting.id%>"><%=posting.title%></a></td>
-              <td><%=posting.description%></td>
+              <td><%-marked(posting.description)%></td>
             </tr>
             <%})%>
           </tbody>
         </table>
       </div>
     </div>
+
+    <div class="row">
+      <div class="span6">
+        <a href="/admin/postings/new" class="btn">+ New Job Posting</a>
+      </div>
+    </div>
+
   </div>
 
 <% include ../_foot %>

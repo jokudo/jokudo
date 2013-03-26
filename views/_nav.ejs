@@ -19,6 +19,11 @@
         </div>
       </form>
       <% } else {%>
+      <% if ( user.admin ){%>
+        <div style="position:absolute;right:400px;top:30px;font-size: 20px;">
+          <a href="/admin/">Admin</a>
+        </div>
+      <%}%>
       <ul>
         <li>
           <a href="/account">
