@@ -1,0 +1,21 @@
+<% include ../_head %>
+  <% include ../_nav %>
+  <div class="main">
+    <% include ../_left_nav %>
+    <div class="jobs container">
+      <div class="row">
+        <div class="span12">
+          <h1><%=posting.title%></h1>
+          <h2><%=posting.company%></h2>
+          <h5><%=posting.location||''%> | <%=posting.schedule||''%></h5>
+          <%-marked(posting.description)%>
+        </div>
+      </div>
+    </div>
+  </div>
+  <% include ../_footer %>
+<% include ../_foot %>
+
+<script>
+  //window.scrollTo(window.scrollX, window.scrollY+document.getElementById('header').offsetHeight);
+</script>

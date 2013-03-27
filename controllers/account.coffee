@@ -35,6 +35,14 @@ exports = module.exports = (app) ->
     if graduationDate
       req.user.graduation = graduationDate or req.user.graduation
 
+    req.user.urls =
+      personal: req.body['user.urls.personal']
+      github: req.body['user.urls.github']
+      linkedin: req.body['user.urls.linkedin']
+      facebook: req.body['user.urls.facebook']
+      twitter: req.body['user.urls.twitter']
+
+
     req.user.save () -> console.log arguments[1].graduation_date
 
     res.redirect '/account'

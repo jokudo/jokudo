@@ -1,0 +1,20 @@
+<a href="/jobs/<%=job.id%>">
+  <div class="job-card span4">
+    <div class="row-fluid">
+      <div class="span12 title">
+        <h1><%=job.title%></h1>
+      </div>
+    </div>
+    <div class="row-fluid">
+      <div class="span12">
+        <span class="company"><%=job.company||''%></span>
+        <span class="location"><%=job.location||''%></span>
+      </div>
+    </div>
+    <div class="row-fluid">
+      <div class="span12">
+        <span class="schedule"><%=job.schedule||''%></span>
+      </div>
+    </div>
+  </div>
+</a>

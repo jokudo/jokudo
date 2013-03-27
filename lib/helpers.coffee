@@ -1,3 +1,5 @@
+marked = require 'marked'
+
 exports.wrapper = (req) ->
   result = {}
 
@@ -9,7 +11,7 @@ exports.wrapper = (req) ->
 
   result.domain = process.env.DOMAIN;
 
-  result.path = req.route?.path or "";
+  result.path = (req.url.split('/')||['',''])[1..];
 
   result.distinctId = req.sessionID
 
@@ -18,6 +20,8 @@ exports.wrapper = (req) ->
   result.mixpanel = () ->
     [result, req.session.mixpanelInjection] = [req.session.mixpanelInjection, '']
     result
+
+  result.marked = marked
 
   result
 

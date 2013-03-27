@@ -33,10 +33,19 @@ UserSchema = new Schema(
   major: [String]
   minor: [String]
   graduation: Date
+
+  urls:
+    github:   String
+    twitter:  String
+    facebook: String
+    linkedin: String
+    personal: String
+
   resume:
     mime: String
     name: String
     bin: Buffer
+
   confirmed:
     type: Boolean
     default: false
@@ -90,7 +99,7 @@ UserSchema.virtual('avatar_large')
 
 UserSchema.virtual('school_name')
   .get( () ->
-    @._school or 'No School Set'
+    @._school or 'Pending Email Confirmation'
   )
 
 UserSchema.virtual('graduation_date')
@@ -164,6 +173,34 @@ UserSchema.virtual('resume_name')
     else
       return 'none'
  )
+
+
+UserSchema.virtual('github_url')
+  .get( () ->
+    if @.urls.github
+      return 'http://github.com/'+@.urls.github
+ )
+UserSchema.virtual('twitter_url')
+  .get( () ->
+    if @.urls.twitter
+      return 'http://twitter.com/'+@.urls.twitter
+ )
+UserSchema.virtual('facebook_url')
+  .get( () ->
+    if @.urls.facebook
+      return 'http://facebook.com/'+@.urls.facebook
+ )
+UserSchema.virtual('linkedin_url')
+  .get( () ->
+    if @.urls.linkedin
+      return 'http://linkedin.com/in/'+@.urls.linkedin
+ )
+UserSchema.virtual('personal_url')
+  .get( () ->
+    if @.urls.personal
+      return 'http://'+@.urls.personal
+ )
+
 
 UserSchema.method 'changeEmail', (newEmail) ->
   # Put the new email into the _email property
