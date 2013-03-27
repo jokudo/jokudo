@@ -33,7 +33,7 @@
           <tbody>
             <% users.forEach(function(user){%>
             <tr>
-              <td><%=user.name%></td>
+              <td><a href="/admin/users/<%=user.id%>"><%=user.name%></a></td>
               <td><%=user.email%></td>
               <td><%=user.school_name%></td>
               <td><%=user.major%><%if(user.minor){%><br /><small><%=user.minor%></small><%}%></td>

@@ -9,6 +9,14 @@ exports = module.exports = (app) ->
       res.render 'admin/users', users: users
 
 
+  app.get '/admin/users/:id', app.gate.requireAdmin, (req, res) ->
+    app.models.User.findById req.params.id, (err, user) ->
+      return res.send(404) if not user?.resume?.bin
+      thisYear = (new Date()).getFullYear()
+      yearSet  = [thisYear-20..thisYear+8]
+      app.models.School.find {}, (err, schools) ->
+        res.render 'account/account', schools: schools, yearSet: yearSet, user: user
+
   app.get '/admin/users/:id/resume/:name.:format?', app.gate.requireAdmin, (req, res) ->
     app.models.User.findById req.params.id, (err, user) ->
       return res.send(404) if not user?.resume?.bin
