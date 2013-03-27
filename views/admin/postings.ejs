@@ -1,0 +1,52 @@
+<% include ../_head %>
+  <% include ../_nav %>
+
+  <div class="container">
+    <div class="row">
+      <div class="span12">
+        <h1>Job Postings</h1>
+        <h5><a href="/admin">back</a></h5>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="span6">
+        <dl>
+          <dt>Count:</dt>
+          <dd><%=postings.length%></dd>
+        </dl>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="span12">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>Company</th>
+              <th>Job Title</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% postings.forEach(function(posting){%>
+            <tr>
+              <td><%=posting.company%></td>
+              <td><a href="/admin/postings/<%=posting.id%>"><%=posting.title%></a></td>
+              <td><%-marked(posting.description)%></td>
+            </tr>
+            <%})%>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="span6">
+        <a href="/admin/postings/new" class="btn">+ New Job Posting</a>
+      </div>
+    </div>
+
+  </div>
+
+<% include ../_foot %>

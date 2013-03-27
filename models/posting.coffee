@@ -7,6 +7,8 @@ PostingSchema = new Schema(
   company: String
   title: String
   description: String
+  location: String
+  schedule: String
 
   modified:
     type: Date

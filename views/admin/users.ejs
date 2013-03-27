@@ -16,9 +16,6 @@
           <dd><%=users.length%></dd>
         </dl>
       </div>
-      <div class="span6">
-        <a href="/admin/users/set-school-by-email" target="_blank">Set schools from emails</a>
-      </div>
     </div>
 
     <div class="row">
@@ -26,16 +23,20 @@
         <table class="table table-striped">
           <thead>
             <tr>
+              <th>Name</th>
               <th>Email</th>
               <th>School</th>
+              <th>Major</th>
               <th>Resume</th>
             </tr>
           </thead>
           <tbody>
             <% users.forEach(function(user){%>
             <tr>
+              <td><%=user.name%></td>
               <td><%=user.email%></td>
               <td><%=user.school_name%></td>
+              <td><%=user.major%><%if(user.minor){%><br /><small><%=user.minor%></small><%}%></td>
               <td><%if (user.hasResume) {%><a href="/admin/users/<%=user.id%>/resume/<%=user.resume_name%>" target="_blank"><%=user.resume_name%></a><%}else{%>&mdash;<%}%></td>
             </tr>
             <%})%>

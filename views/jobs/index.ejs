@@ -1,0 +1,53 @@
+<% include ../_head %>
+  <% include ../_nav %>
+  <div class="main">
+    <% include ../_left_nav %>
+    <div class="jobs container">
+
+      <div class="row">
+        <div class="span12">
+          <h1>Positions looking to be filled now</h1>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="span12">
+          <div class="row-fluid job-container">
+            <% postings.forEach(function(job){%>
+              <% include _job-card %>
+            <% }) %>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="pagination pagination-large pagination-centered">
+          <ul>
+            <%if(typeof prevPage == 'undefined' || !prevPage){%>
+            <li class="disabled"><a href="#">&laquo;</a></li>
+            <%}else{%>
+            <li class="active"><a href="/jobs/<%=page-1%>">&laquo;</a></li>
+            <%}%>
+
+            <% for(var i=0;i<pages;i++){%>
+            <li class="<%if((i+1)==page){%>disabled<%}else{%>active<%}%>"><a href="/jobs/<%=i+1%>"><%=i+1%></a></li>
+            <%}%>
+
+
+            <%if(typeof nextPage == 'undefined' || !nextPage){%>
+            <li class="disabled"><a href="#">&raquo;</a></li>
+            <%}else{%>
+            <li class="active"><a href="/jobs/<%=page+1%>">&raquo;</a></li>
+            <%}%>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </div>
+  <% include ../_footer %>
+<% include ../_foot %>
+
+<script>
+  window.scrollTo(window.scrollX, window.scrollY+document.getElementById('header').offsetHeight);
+</script>

@@ -9,7 +9,20 @@ redis       = require 'redis'
 RedisStore  = require('connect-redis')(express)
 helpers     = require './helpers'
 MandrillAPI = require('mailchimp').MandrillAPI
+marked      = require 'marked'
 
+
+marked.setOptions({
+  gfm: true,
+  tables: true,
+  breaks: false,
+  pedantic: false,
+  sanitize: true,
+  smartLists: true,
+  langPrefix: 'language-',
+  highlight: (code, lang) ->
+    code
+});
 
 
 exports.boot = (app) ->
