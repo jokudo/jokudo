@@ -11,13 +11,22 @@
         </div>
         <div class="span5 offset1">
 
-          <div class="main-register">
-            <span class="h1">Get started now</span>
-            <span class="h2">Have top companies finding you in minutes!</span>
-            <div class="registration-form">
-              <% include account/_register_form %>
+          <% if ( !loggedIn ){ %>
+            <div class="main-register">
+              <span class="h1">Get started now</span>
+              <span class="h2">Have top companies finding you in minutes!</span>
+              <div class="registration-form">
+                <% include account/_register_form %>
+              </div>
             </div>
-          </div>
+          <%}else{%>
+            <div class="main-register">
+              <span class="h1">You're on your way!</span>
+              <a href="/account"><span class="h2">Update your profile</span></a>
+              <a href="/jobs"><span class="h3">Check out the job board</span></a>
+            </div>
+          <%}%>
+
         </div>
       </div> <!-- end signup row -->
     </div> <!-- End container -->
