@@ -12,10 +12,16 @@
 
       <div class="row">
         <div class="span12">
-          <div class="row-fluid job-container">
-            <% postings.forEach(function(job){%>
+          <div class="job-container">
+            <div class="row-fluid">
+            <% postings.forEach(function(job, index){%>
+              <%if (index % 3 === 0 && index > 0){%>
+            </div>
+            <div class="row-fluid">
+              <%}%>
               <% include _job-card %>
             <% }) %>
+            </div>
           </div>
         </div>
       </div>
