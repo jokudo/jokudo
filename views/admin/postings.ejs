@@ -25,15 +25,17 @@
             <tr>
               <th>Company</th>
               <th>Job Title</th>
-              <th>Description</th>
+              <th>Location</th>
+              <th>Schedule</th>
             </tr>
           </thead>
           <tbody>
             <% postings.forEach(function(posting){%>
             <tr>
-              <td><%=posting.company%></td>
+              <td><a href="/admin/postings/<%=posting.id%>"><%=posting.company%></a></td>
               <td><a href="/admin/postings/<%=posting.id%>"><%=posting.title%></a></td>
-              <td><%-marked(posting.description)%></td>
+              <td><%=posting.location%></td>
+              <td><%=posting.schedule%></td>
             </tr>
             <%})%>
           </tbody>
