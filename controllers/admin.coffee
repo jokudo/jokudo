@@ -8,6 +8,12 @@ exports = module.exports = (app) ->
     app.models.User.find({}).sort({created: -1}).exec (err, users) ->
       res.render 'admin/users', users: users
 
+  app.get '/admin/users/set-school-by-email', app.gate.requireAdmin, (req, res) ->
+    app.models.User.find {}, (err, users) ->
+      res.send 500 if err
+      res.send 404 if not users
+      setSchool(user) for user in users
+      res.json 'ok'
 
   app.get '/admin/users/:id', app.gate.requireAdmin, (req, res) ->
     app.models.User.findById req.params.id, (err, user) ->
@@ -24,17 +30,6 @@ exports = module.exports = (app) ->
       res.setHeader('Content-type', user.resume.mime);
       res.write(user.resume.bin, 'binary');
       res.end()
-
-
-  app.get '/admin/users/set-school-by-email', app.gate.requireAdmin, (req, res) ->
-    console.log 'here'
-    app.models.User.find {}, (err, users) ->
-      console.log err, users
-      res.send 500 if err
-      res.send 404 if not users
-      setSchool(user) for user in users
-      res.json 'ok'
-
 
   setSchool = (user) ->
     schoolEmailUrl = user.email.match /@(:?[a-zA-Z0-9-]+\.)?([a-zA-Z0-9-]+\.edu)/
