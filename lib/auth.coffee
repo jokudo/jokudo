@@ -5,9 +5,17 @@ helpers   = require './helpers'
 exports.requireLogin = (req, res, next) ->
   if not req.loggedIn
     rw = req.headers['x-requested-with']
-    req.session.redirectTo = req.headers.referer or '/';
+    req.session.redirectTo = req.url or '/';
     return res.send(401) if rw is "XMLHttpRequest"
     return res.redirect '/login'
+  next()
+
+exports.requireLoginToSee = (req, res, next) ->
+  if not req.loggedIn
+    rw = req.headers['x-requested-with']
+    req.session.redirectTo = req.url or '/';
+    return res.send(401) if rw is "XMLHttpRequest"
+    return res.redirect '/login-to-see-that'
   next()
 
 exports.requireAdmin = (req, res, next) ->
@@ -25,10 +33,13 @@ exports.requireAdmin = (req, res, next) ->
 
 
 exports.bootApp = (app) ->
+
   exports.bootEveryauth app
+
   app.gate =
     requireLogin: exports.requireLogin
     requireAdmin: exports.requireAdmin
+    requireLoginToSee: exports.requireLoginToSee
 
 exports.bootEveryauth = (app) =>
   everyauth.everymodule
@@ -88,7 +99,6 @@ exports.bootEveryauth = (app) =>
         ";
         # Redirect to home or wherever redirectTo is set to
       redirectTo = data?.session?.redirectTo or '/account'
-      redirectTo = '/account'
       data.session.redirectTo = undefined
       @.redirect(res, redirectTo)
     )
@@ -156,7 +166,6 @@ exports.bootEveryauth = (app) =>
       ";
       # Redirect
       redirectTo = data?.session?.redirectTo or '/account'
-      redirectTo = '/account'
       data.session.redirectTo = undefined
       @.redirect(res, redirectTo)
     )

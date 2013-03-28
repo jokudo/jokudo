@@ -16,13 +16,13 @@ exports = module.exports = (app) ->
       res.locals.nextPage = true if (page < res.locals.pages)
       next()
 
-  app.get '/jobs/:page([0-9]+)?', app.gate.requireLogin, pagination, (req, res) ->
+  app.get '/jobs/:page([0-9]+)?', app.gate.requireLoginToSee, pagination, (req, res) ->
     skip = pageLimit * ( Math.max 0, (req.params.page-1) )
     app.models.Posting.find({}).sort({company: 1, title:1, modified: 1}).limit(pageLimit).skip(skip).exec (err, postings) ->
       res.render 'jobs/index', postings: postings
     app.mixpanel.track 'JobListings', distinct_id: req.sessionID
 
-  app.get '/jobs/:id', app.gate.requireLogin, (req, res) ->
+  app.get '/jobs/:id', app.gate.requireLoginToSee, (req, res) ->
     app.models.Posting.findOne _id: req.params.id, (err, posting) ->
       return app.send404(req, res) if not posting or err
       res.render 'jobs/job', posting: posting
