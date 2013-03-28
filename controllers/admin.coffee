@@ -28,6 +28,7 @@ exports = module.exports = (app) ->
 
   app.get '/admin/users/set-school-by-email', app.gate.requireAdmin, (req, res) ->
     app.models.User.find {}, (err, users) ->
+      console.log err, users
       res.send 500 if err
       res.send 404 if not users
       setSchool(user) for user in users
