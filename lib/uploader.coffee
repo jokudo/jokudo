@@ -53,7 +53,6 @@ exports.boot = (app) ->
           ## Delete the old
           app.s3.client.deleteObject deleteData, (err, result) ->
             console.log('Error Deleting', err) if err
-        console.log 'uploading ', nameFull
         # Upload the new
         app.s3.client.putObject data, (err, result) ->
           return next(err) if err
