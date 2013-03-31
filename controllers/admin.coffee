@@ -45,7 +45,7 @@ exports = module.exports = (app) ->
 
   app.get '/admin/users/:id', app.gate.requireAdmin, (req, res) ->
     app.models.User.findById req.params.id, (err, user) ->
-      return res.send(404) if not user?.resume?.bin
+      return res.send(404) if not user
       thisYear = (new Date()).getFullYear()
       yearSet  = [thisYear-20..thisYear+8]
       res.render 'account/account', yearSet: yearSet, user: user
