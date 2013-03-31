@@ -139,7 +139,7 @@
             <div class="span6">
               <label>Current:</label>
               <div class="value" id="current-resume">
-                <%=user.resume_name%> <%if (user.hasResume) {%><small>(<a href="/account/resume" target="_blank">download</a>)</small><%}%>
+                <%=user.resume_name%> <%if (user.hasResume) {%><small>(<a href="<%=user.resume_url%>" target="_blank">download</a>)</small><%}%>
               </div>
             </div>
 

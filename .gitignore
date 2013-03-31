@@ -16,6 +16,8 @@ results
 node_modules/*
 cert/*
 logs/*
+tmp/*
+
 
 logs/access.log
 npm-debug.log

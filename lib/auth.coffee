@@ -41,6 +41,12 @@ exports.bootApp = (app) ->
     requireAdmin: exports.requireAdmin
     requireLoginToSee: exports.requireLoginToSee
 
+
+
+
+
+
+
 exports.bootEveryauth = (app) =>
   everyauth.everymodule
     .handleLogout( (req, res) ->
@@ -146,11 +152,18 @@ exports.bootEveryauth = (app) =>
             lastName: newUserAttributes.name.last
           user.setPassword newUserAttributes.password
           user.changeEmail newUserAttributes.email
-          user.saveResume newUserAttributes.resume if newUserAttributes.resume.size > 0
-          user.save (err) ->
-            if err
-              return promise.fulfill([err])
-            promise.fulfill user
+          if newUserAttributes.resume.size > 0
+            app.saveResume user, newUserAttributes.resume, (err) ->
+              console.log(err) if err
+              user.save (err) ->
+                if err
+                  return promise.fulfill([err])
+                promise.fulfill user
+          else
+            user.save (err) ->
+              if err
+                return promise.fulfill([err])
+              promise.fulfill user
       promise
     )
     .respondToRegistrationSucceed( (res, user, data) ->

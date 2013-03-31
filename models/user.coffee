@@ -45,6 +45,7 @@ UserSchema = new Schema(
     mime: String
     name: String
     bin: Buffer
+    s3Name: String
 
   confirmed:
     type: Boolean
@@ -163,17 +164,24 @@ UserSchema.virtual('major_string')
 
 UserSchema.virtual('hasResume')
   .get( () ->
-    return (@.resume.bin?.length) > 0
+    return !!(@.resume.s3Name)
   )
 
 UserSchema.virtual('resume_name')
   .get( () ->
     if @.hasResume
-      return @.resume.name or 'resume'
+      return @.resume.s3Name or @.resume.name or 'resume'
     else
       return 'none'
  )
 
+UserSchema.virtual('resume_url')
+  .get( () ->
+    if @.hasResume
+      return 'http://r.jokudo.com/'+@.resume.s3Name
+    else
+      return '/account/resume'
+ )
 
 UserSchema.virtual('github_url')
   .get( () ->
@@ -214,9 +222,7 @@ UserSchema.method 'confirmEmail', (email) ->
   @.confirmed = true
 
 UserSchema.method 'saveResume', (resumeFile) ->
-  @.resume.name = resumeFile.name
-  @.resume.mime = resumeFile.mime
-  @.resume.bin = fs.readFileSync resumeFile.path
+  throw new Error 'Method No longer supported'
 
 UserSchema.method 'encryptPassword', (plainText) ->
   plainText = plainText + '_9dD83n'

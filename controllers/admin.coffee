@@ -1,3 +1,7 @@
+fs = require 'fs'
+
+
+
 exports = module.exports = (app) ->
 
   # Home
@@ -5,7 +9,7 @@ exports = module.exports = (app) ->
     res.render 'admin/index';
 
   app.get '/admin/users', app.gate.requireAdmin, (req, res) ->
-    app.models.User.find({}).sort({created: -1}).exec (err, users) ->
+    app.models.User.find({}).sort({modified: 1}).exec (err, users) ->
       res.render 'admin/users', users: users
 
   app.get '/admin/users/set-school-by-email', app.gate.requireAdmin, (req, res) ->
@@ -14,6 +18,30 @@ exports = module.exports = (app) ->
       res.send 404 if not users
       setSchool(user) for user in users
       res.json 'ok'
+
+  app.get '/admin/move-resumes-to-aws', app.gate.requireAdmin, (req, res) ->
+    emitter = new (require('events').EventEmitter)
+    app.models.User.find {'resume.bin': {$exists: true}, 'resume.mime': {$exists: true}}, (err, users) ->
+      uploadUserResume = (i) ->
+          if not users[i]
+            return res.send 200
+          else
+            user = users[i]
+          if user.resume.bin.length < 1
+            return uploadUserResume(i+1)
+          resume =
+            type: user.resume.mime
+            bin: user.resume.bin
+          app.saveResume user, resume, (err) ->
+            if err
+              console.log(err)
+              return uploadUserResume(i+1)
+            user.resume.bin = undefined
+            user.resume.mime = undefined
+            user.resume.name = undefined
+            user.save () ->
+              uploadUserResume(i+1)
+      uploadUserResume(0)
 
   app.get '/admin/users/:id', app.gate.requireAdmin, (req, res) ->
     app.models.User.findById req.params.id, (err, user) ->

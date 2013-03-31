@@ -10,7 +10,8 @@ RedisStore  = require('connect-redis')(express)
 helpers     = require './helpers'
 MandrillAPI = require('mailchimp').MandrillAPI
 marked      = require 'marked'
-
+AWS         = require 'aws-sdk'
+uploader    = require './uploader'
 
 marked.setOptions({
   gfm: true,
@@ -27,6 +28,10 @@ marked.setOptions({
 
 exports.boot = (app) ->
 
+  #Setup S3
+  AWS.config.update accessKeyId: app.config.AWS_ACCESS_KEY_ID, secretAccessKey: app.config.AWS_SECRET_ACCESS_KEY
+  app.s3 = new AWS.S3()
+
   # Add the Mixpanel
   app.mixpanel  = new mpAPI.init app.config.MIXPANEL_ACCESS_TOKEN
 
@@ -35,6 +40,9 @@ exports.boot = (app) ->
 
   # Bootup authorization ( everyauth + our middleware )
   auth.bootApp app
+
+  # Boot the uploading scripts
+  uploader.boot app
 
   # Configuration method
   app.configure ()->

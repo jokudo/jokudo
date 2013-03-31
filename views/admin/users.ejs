@@ -37,7 +37,7 @@
               <td><a href="/admin/users/<%=user.id%>"><%=user.email%></a></td>
               <td><%=user.school_name%></td>
               <td><%=user.major%><%if(user.minor){%><br /><small><%=user.minor%></small><%}%></td>
-              <td><%if (user.hasResume) {%><a href="/admin/users/<%=user.id%>/resume/<%=user.resume_name%>" target="_blank"><%=user.resume_name%></a><%}else{%>&mdash;<%}%></td>
+              <td><%if (user.hasResume) {%><a href="<%=user.resume_url%>" target="_blank"><%=user.resume_name%></a><%}else{%>&mdash;<%}%></td>
             </tr>
             <%})%>
           </tbody>

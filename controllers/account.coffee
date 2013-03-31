@@ -11,10 +11,6 @@ exports = module.exports = (app) ->
       res.render 'account/account', schools: schools, yearSet: yearSet
 
   app.post '/account', app.gate.requireLogin, (req, res) ->
-    resume = req.files.resume
-
-    if resume.size > 0
-      req.user.saveResume resume
 
     req.user.firstName = req.body['user.firstName'].trim()
     req.user.middleName = req.body['user.middleName'].trim()
@@ -43,9 +39,17 @@ exports = module.exports = (app) ->
       twitter: req.body['user.urls.twitter']
 
 
-    req.user.save () -> console.log arguments[1].graduation_date
+    req.user.save()
 
-    res.redirect '/account'
+    resume = req.files.resume
+
+    if resume.size > 0
+      app.saveResume req.user, resume, (err) ->
+        console.log(err) if err
+        res.redirect '/account'
+    else
+      res.redirect '/account'
+
 
   app.get '/account/resume', app.gate.requireLogin, (req, res) ->
     return res.send(404) if not req.user.resume?.bin
