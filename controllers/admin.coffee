@@ -9,7 +9,7 @@ exports = module.exports = (app) ->
     res.render 'admin/index';
 
   app.get '/admin/users', app.gate.requireAdmin, (req, res) ->
-    app.models.User.find({}).sort({modified: 1}).exec (err, users) ->
+    app.models.User.find({}).sort({_id: 1}).exec (err, users) ->
       res.render 'admin/users', users: users
 
   app.get '/admin/users/set-school-by-email', app.gate.requireAdmin, (req, res) ->
