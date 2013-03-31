@@ -31,11 +31,8 @@ exports.boot = (app) ->
         next null, hash
 
   app.saveResume = (user, resumeFile, next=(()->return)) ->
-    if not resumeFile.bin
-      bodyStream = fs.createReadStream( resumeFile.path )
-    else
-      bodyStream = resumeFile.bin
-    numToHash = parseInt(crypto.MD5(resumeFile.bin || fs.readFileSync(resumeFile.path)),16)
+    bodyStream = fs.readFileSync( resumeFile.path )
+    numToHash = parseInt(crypto.MD5(fs.readFileSync(resumeFile.path)),16)
     ext = mime.extension(resumeFile.type || 'binary/octet-stream') || 'pdf'
     makeHash numToHash, ext, user._id, (err, name) ->
       nameFull = name+'.'+ext
