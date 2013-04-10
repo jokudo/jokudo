@@ -1,66 +1,65 @@
 <% include _head %>
   <% include _nav %>
+  <div class="main">
+    <div class="masthead">
+      <div class="container">
+        <div class="row">
+          <div class="span5 offset1 intro">
+            <h1>The lost martial art of job hunting</h1>
+            <h2>Meditating on the ways of &lsquo;The Job&rsquo; in our college dojo, we at Jokudo turn the tables on recruiting, making you visible to the masters at your dream company.</h2>
+          </div>
+          <div class="span5 offset1">
 
-
-  <div class="masthead">
-    <div class="container">
-      <div class="row">
-        <div class="span5 offset1 intro">
-          <h1>The lost martial art of job hunting</h1>
-          <h2>Meditating on the ways of &lsquo;The Job&rsquo; in our college dojo, we at Jokudo turn the tables on recruiting, making you visible to the masters at your dream company.</h2>
-        </div>
-        <div class="span5 offset1">
-
-          <% if ( !loggedIn ){ %>
-            <div class="main-register">
-              <span class="h1">Get started now</span>
-              <span class="h2">Have top companies finding you in minutes!</span>
-              <div class="registration-form">
-                <% include account/_register_form %>
+            <% if ( !loggedIn ){ %>
+              <div class="main-register">
+                <span class="h1">Get started now</span>
+                <span class="h2">Have top companies finding you in minutes!</span>
+                <div class="registration-form">
+                  <% include account/_register_form %>
+                </div>
               </div>
-            </div>
-          <%}else{%>
-            <div class="main-register">
-              <span class="h1">You're on your way!</span>
-              <a href="/account"><span class="h2">Update your profile</span></a>
-              <a href="/jobs"><span class="h3">Check out the job board</span></a>
-            </div>
-          <%}%>
+            <%}else{%>
+              <div class="main-register">
+                <span class="h1">You're on your way!</span>
+                <a href="/account"><span class="h2">Update your profile</span></a>
+                <a href="/jobs"><span class="h3">Check out the job board</span></a>
+              </div>
+            <%}%>
 
+          </div>
+        </div> <!-- end signup row -->
+      </div> <!-- End container -->
+    </div> <!-- End Masthead -->
+
+
+    <div class="more-info">
+      <div class="container">
+        <div class="row">
+          <h1>The Story</h1>
         </div>
-      </div> <!-- end signup row -->
-    </div> <!-- End container -->
-  </div> <!-- End Masthead -->
+        <div class="row story">
+          <div class="span2 offset2">
+            <img src="/images/courseshark.png" alt="CourseShark Logo" />
+          </div>
+          <div class="span4">
+            <p>First, the Jokudo team brought you <a href="http://courseshark.com/" target="_blank">CourseShark</a>.</p>
+          </div>
+        </div>
 
+        <div class="row story">
+          <div class="span4 offset4">
+            <p>We helped you organize your schedule, choose your professors, and get into the best classes.</p>
+          </div>
+        </div>
 
-  <div class="more-info">
-    <div class="container">
-      <div class="row">
-        <h1>The Story</h1>
+        <div class="row story">
+          <div class="span4 offset4">
+            <p>Now we are taking it a step further and getting you the best internships and jobs to jump start your career.</p>
+          </div>
+        </div>
       </div>
-      <div class="row story">
-        <div class="span2 offset2">
-          <img src="/images/courseshark.png" alt="CourseShark Logo" />
-        </div>
-        <div class="span4">
-          <p>First, the Jokudo team brought you <a href="http://courseshark.com/" target="_blank">CourseShark</a>.</p>
-        </div>
-      </div>
 
-      <div class="row story">
-        <div class="span4 offset4">
-          <p>We helped you organize your schedule, choose your professors, and get into the best classes.</p>
-        </div>
-      </div>
-
-      <div class="row story">
-        <div class="span4 offset4">
-          <p>Now we are taking it a step further and getting you the best internships and jobs to jump start your career.</p>
-        </div>
-      </div>
     </div>
-
   </div>
-
   <% include _footer %>
 <% include _foot %>

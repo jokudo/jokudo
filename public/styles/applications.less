@@ -1,0 +1,38 @@
+.sub-menu-left.jobs-all-listings{
+  .job-option{
+    height: 60px;
+    border-bottom: 1px solid @white;
+    padding: 15px 0 10px 20px;
+    cursor: pointer;
+    &:last-child{
+      border-bottom: none;
+    }
+    h1{
+      font-size: 16px;
+      line-height: 16px;
+      font-weight: 400;
+      margin: 0;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: hidden;
+      max-width: 170px;
+    }
+    h2{
+      font-size: 13px;
+      line-height: 13px;
+      font-weight: 200;
+      margin: 0;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: hidden;
+      max-width: 170px;
+    }
+    &:hover{
+      //background: lighten(@green, 5%);
+    }
+    &.active{
+      //background: lighten(@green, 5%);
+      color: @white;
+    }
+  }
+}

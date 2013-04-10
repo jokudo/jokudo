@@ -1,47 +1,49 @@
 <% include _head %>
   <% include _nav %>
 
+  <div class="main">
 
-  <div class="masthead about">
-    <div class="container">
-      <div class="row">
-        <div class="span5 offset1 intro">
-          <h1>Jokudo Jobs</h1>
-          <h2>Your ultimate resource for finding your way to the job you want! Create your profile, track your applications, and be scouted by top companies</h2>
-        </div>
-        <div class="span5 offset1">
-          <% if ( !loggedIn ){ %>
-            <div class="main-register">
-              <span class="h1">Get started now</span>
-              <span class="h2">Have top companies finding you in minutes!</span>
-              <div class="registration-form">
-                <% include account/_register_form %>
+    <div class="masthead about">
+      <div class="container">
+        <div class="row">
+          <div class="span5 offset1 intro">
+            <h1>Jokudo Jobs</h1>
+            <h2>Your ultimate resource for finding your way to the job you want! Create your profile, track your applications, and be scouted by top companies</h2>
+          </div>
+          <div class="span5 offset1">
+            <% if ( !loggedIn ){ %>
+              <div class="main-register">
+                <span class="h1">Get started now</span>
+                <span class="h2">Have top companies finding you in minutes!</span>
+                <div class="registration-form">
+                  <% include account/_register_form %>
+                </div>
               </div>
-            </div>
-          <%}else{%>
-            <div class="main-register">
-              <span class="h1">You're on your way!</span>
-              <a href="/account"><span class="h2">Update your profile</span></a>
-              <a href="/jobs"><span class="h3">Check out the job board</span></a>
-            </div>
-          <%}%>
-        </div>
-      </div> <!-- end signup row -->
-    </div> <!-- End container -->
-  </div> <!-- End Masthead -->
+            <%}else{%>
+              <div class="main-register">
+                <span class="h1">You're on your way!</span>
+                <a href="/account"><span class="h2">Update your profile</span></a>
+                <a href="/jobs"><span class="h3">Check out the job board</span></a>
+              </div>
+            <%}%>
+          </div>
+        </div> <!-- end signup row -->
+      </div> <!-- End container -->
+    </div> <!-- End Masthead -->
 
 
-  <div class="more-info">
-    <div class="container">
-      <div class="row">
-        <h1>Forget waiting in line in career fairs just to be told to apply online, submitting hundreds of resumes to companies you dont really want to work for. Getting a job out of college should be so much easier. Employers should be finding you!</h1>
-      </div>
-      <div class="row story">
-        <div class="span5 offset2">
-          <p>You work hard in college. Attending class, studying for tests, managing those group projects. <small>We know... we're students too!</small> And to what end? Hopefully so you can get a job right?</p>
+    <div class="more-info">
+      <div class="container">
+        <div class="row">
+          <h1>Forget waiting in line in career fairs just to be told to apply online, submitting hundreds of resumes to companies you dont really want to work for. Getting a job out of college should be so much easier. Employers should be finding you!</h1>
         </div>
-        <div class="span2 offset1">
-          <h1 class="info-big">50% <small>of graduates are un-employed or under-employed</small></h1>
+        <div class="row story">
+          <div class="span5 offset2">
+            <p>You work hard in college. Attending class, studying for tests, managing those group projects. <small>We know... we're students too!</small> And to what end? Hopefully so you can get a job right?</p>
+          </div>
+          <div class="span2 offset1">
+            <h1 class="info-big">50% <small>of graduates are un-employed or under-employed</small></h1>
+          </div>
         </div>
       </div>
     </div>
