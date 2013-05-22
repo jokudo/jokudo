@@ -27,7 +27,7 @@
                 <i class="icon icon_study"></i><%if(user.graduated){%>Graduated: <%=user.graduation_date%><%}else{%>Graduating: <%=user.graduation_date%><%}%>
               </div>
               <div class="information bottom">
-                <i class="icon icon_mail"></i><%=user.email%> <%if(!user.confirmed){%><small>A message has been sent to you to confirm your email address. [<a href="/account/confirm_email_resend">Resend</a>]</small><%}%>
+                <i class="icon icon_mail"></i><%=user.email%> <%if(!user.confirmed){%><small>A message has been sent to you to confirm your email address. If you don't see it soon, check your spam folder! [<a href="/account/confirm_email_resend">Resend</a>]</small><%}%>
               </div>
               <div class="information bottom right">
                 <% if (user.urls.github){%><a href="<%=user.github_url%>" target="_blank"><i class="icon icon_github"></i></a><%}%>
